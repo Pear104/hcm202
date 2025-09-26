@@ -1,56 +1,58 @@
-import os
-import re
-import json
+# rag/core.py
+import os, re, json
 from typing import List
-from sentence_transformers import SentenceTransformer, util, CrossEncoder
-from qdrant_client import QdrantClient
-import google.generativeai as genai
-from .generator import generate_with_groq
 from dotenv import load_dotenv
 
-# ----------- Load models & config -----------
-
-# Embedding model
+# nạp .env TRƯỚC khi đọc env
 load_dotenv()
 
-# embed_model = SentenceTransformer('BAAI/bge-m3')
-embed_model = SentenceTransformer('intfloat/multilingual-e5-base')
+from sentence_transformers import SentenceTransformer, CrossEncoder
+from qdrant_client import QdrantClient
+from qdrant_client.http.exceptions import ResponseHandlingException
+import google.generativeai as genai
 
-# Cross-encoder for reranking
-cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')  # Reranking model
+from .generator import generate_with_groq, generate_with_gemini
 
-# Gemini generative model
+# ================== CẤU HÌNH MÔ HÌNH ==================
+# GPU nếu có
+import torch
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+# Khuyến nghị cho VN + đa ngữ, 1024-dim
+EMBED_MODEL_NAME = "BAAI/bge-m3"
+embed_model = SentenceTransformer(EMBED_MODEL_NAME, device=DEVICE)
+
+# Cross-encoder rerank (CPU/GPU tuỳ cài đặt torch; đa số chạy CPU vẫn ổn)
+cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+# Gemini (dùng cho sinh câu trả lời)
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model_gen = genai.GenerativeModel("gemini-2.0-flash")
 
-# Qdrant client
-qdrant = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY")
-)
-collection_name = "MLN131_2"
+# Qdrant
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong")  # bạn có thể đổi tuỳ ý
 
 _qdrant = None
 def get_qdrant():
+    """Khởi tạo Qdrant client khi cần (tránh lỗi thứ tự import)."""
     global _qdrant
     if _qdrant is None:
         url = (os.getenv("QDRANT_URL") or "").rstrip("/")
         api_key = os.getenv("QDRANT_API_KEY") or None
-        # in log nhẹ để debug khi cần:
-        print(f"[rag.core] QDRANT_URL={url or '<empty>'}")
+        print(f"[rag.core] QDRANT_URL={url or '<empty>'}  COLLECTION={COLLECTION_NAME}")
         _qdrant = QdrantClient(url=url, api_key=api_key, timeout=30.0, check_compatibility=False)
     return _qdrant
-# ----------- Utilities -----------
 
+# ================== TIỆN ÍCH PROMPT/ROUTER ==================
 def rewrite_query(original_query: str) -> str:
     prompt = f"""
-Bạn là trợ lý tối ưu truy vấn cho chatbot về Chủ nghĩa Xã hội Khoa học.
+Bạn là trợ lý tối ưu truy vấn cho chatbot về Tư tưởng Hồ Chí Minh (TTHCM).
 
 Yêu cầu:
-- Viết lại câu hỏi ngắn gọn, học thuật, rõ trọng tâm CNXHKH
-- Ưu tiên các khái niệm: lực lượng/quan hệ sản xuất, sở hữu (công hữu/tư hữu),
-  giai cấp & nhà nước, chuyên chính vô sản, dân chủ XHCN, thời kỳ quá độ,
-  tiêu vong của nhà nước, đối chiếu bối cảnh Việt Nam (nếu liên quan)
+- Viết lại câu hỏi ngắn gọn, học thuật, đúng trọng tâm TTHCM
+- Ưu tiên các chủ đề: độc lập dân tộc gắn với CNXH; dân tộc–giai cấp; đại đoàn kết
+  dân tộc; nhà nước của dân – do dân – vì dân; dân chủ; đạo đức cách mạng;
+  giáo dục – con người; văn hoá; đối ngoại; xây dựng Đảng.
 - Thêm từ đồng nghĩa/thuật ngữ tương đương có ích cho truy hồi.
 
 Gốc:
@@ -58,29 +60,19 @@ Gốc:
 
 Bản viết lại (một dòng, không giải thích):
 """
-    rewritten = model_gen.generate_content(prompt)
-    return rewritten.text.strip()
-
-def query_router(query: str) -> str:
-    socialism_terms = [
-        "chủ nghĩa xã hội", "chủ nghĩa cộng sản", "mác", "engels", "ăngghen", "lênin",
-        "công hữu", "tư hữu", "quan hệ sản xuất", "lực lượng sản xuất",
-        "dân chủ xã hội chủ nghĩa", "chuyên chính vô sản",
-        "thời kỳ quá độ", "nhà nước và cách mạng", "việt nam", "cnxh khoa học"
-    ]
-    q = query.lower()
-    if any(k in q for k in socialism_terms):
-        return "document"
-    return "document"
+    try:
+        rewritten = model_gen.generate_content(prompt)
+        return rewritten.text.strip()
+    except Exception:
+        return original_query
 
 def generate_subqueries(user_query: str, max_subqueries: int = 4) -> List[str]:
     prompt = f"""
-Bạn là trợ lý tách truy vấn cho chatbot CNXHKH.
+Bạn là trợ lý tách truy vấn cho chatbot Tư tưởng Hồ Chí Minh.
 
-Hãy tách câu hỏi dưới đây thành tối đa {max_subqueries} tiểu câu, mỗi câu CHỈ 1 ý:
-(ví dụ: sở hữu/công hữu, lực lượng vs quan hệ sản xuất, giai cấp & nhà nước,
-chuyên chính vô sản, dân chủ XHCN, thời kỳ quá độ lên CNCS, tiêu vong nhà nước,
-vận dụng tại Việt Nam).
+Hãy tách câu hỏi dưới đây thành tối đa {max_subqueries} tiểu câu, mỗi câu chỉ 1 ý:
+(vd: độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng; đại đoàn kết;
+nhà nước của dân – do dân – vì dân; văn hoá; giáo dục con người; xây dựng Đảng).
 
 Không trùng lặp, gọn, dễ truy hồi.
 Câu gốc:
@@ -90,110 +82,129 @@ Danh sách (đánh số):
 """
     try:
         resp = model_gen.generate_content(prompt)
-        lines = resp.text.strip().split("\n")
+        lines = (resp.text or "").strip().split("\n")
         return [re.sub(r"^\d+\.\s*", "", L).strip() for L in lines if L.strip()][:max_subqueries]
     except Exception:
         return [user_query]
 
-def retrieve_documents(query: str, top_k: int = 10, rerank_k: int = 30, rerank_threshold: float = 0.4) -> tuple[List[dict], float]:
+def query_router(query: str) -> str:
+    # Có thể mở rộng nếu bạn định multi-tool; hiện tại luôn dùng "document"
+    terms = [
+        "tư tưởng hồ chí minh", "độc lập dân tộc", "chủ nghĩa xã hội", "dân chủ",
+        "đại đoàn kết", "đạo đức cách mạng", "nhà nước của dân do dân vì dân",
+        "giáo dục", "văn hoá", "xây dựng đảng", "hồ chí minh"
+    ]
+    q = query.lower()
+    return "document" if any(k in q for k in terms) else "document"
+
+# ================== TRUY HỒI + RERANK ==================
+def retrieve_documents(query: str, top_k: int = 10, rerank_k: int = 30, rerank_threshold: float = 0.4):
     qdrant = get_qdrant()
-    query_vec = embed_model.encode("query: " + query, normalize_embeddings=True)
-    initial_results = qdrant.search(
-        collection_name=collection_name,
-        query_vector=query_vec,
-        limit=rerank_k,
-        with_payload=True,
-        with_vectors=False,
-    )
-    if not initial_results:
+    try:
+        # bge-m3: vẫn dùng prefix "query:"/"passage:" là tốt cho RAG
+        qvec = embed_model.encode("query: " + query, normalize_embeddings=True)
+        hits = qdrant.search(
+            collection_name=COLLECTION_NAME,
+            query_vector=qvec,
+            limit=rerank_k,
+            with_payload=True,
+            with_vectors=False,
+        )
+    except Exception as e:
+        print(f"[rag.core] Qdrant search error: {e}")
         return [], 0.0
 
-    pairs = [(query, hit.payload["content"]) for hit in initial_results]
+    if not hits:
+        return [], 0.0
+
+    pairs = [(query, h.payload.get("content", "")) for h in hits]
     scores = cross_encoder.predict(pairs)
 
-    reranked = [
-        (hit, s) for hit, s in zip(initial_results, scores) if s >= rerank_threshold
-    ] or [
-        (hit, s) for hit, s in zip(initial_results, scores) if s >= 0.2
-    ]
-
+    reranked = [(h, s) for h, s in zip(hits, scores) if s >= rerank_threshold] \
+               or [(h, s) for h, s in zip(hits, scores) if s >= 0.2]
     reranked_sorted = sorted(reranked, key=lambda x: x[1], reverse=True)
 
-    def clean_filename(filename):
+    def clean_filename(fn):  # gọn nguồn
         import os
-        return os.path.splitext(filename)[0]
+        return os.path.splitext(fn)[0]
 
-    documents = [
-        {
-            "filename": clean_filename(hit.payload.get("filename", "unknown")),
-            "content": hit.payload["content"],
-            "score": s
-        }
-        for hit, s in reranked_sorted[:top_k]
-    ]
-    max_score = max([d["score"] for d in documents], default=0.0)
-    return documents, max_score
+    docs = [{
+        "filename": clean_filename(h.payload.get("filename", "unknown")),
+        "content": h.payload.get("content", ""),
+        "score": s
+    } for h, s in reranked_sorted[:top_k]]
 
+    return docs, (max([d["score"] for d in docs]) if docs else 0.0)
 
-# ----------- Main RAG entrypoint -----------
+# ================== ENTRYPOINT CHÍNH ==================
 def generate_response(user_query: str, model_name: str = "gemini") -> str:
-    # 2) Subqueries
-    subqueries = generate_subqueries(user_query)
+    # Viết lại + tách truy vấn
+    q_rew = rewrite_query(user_query)
+    subqueries = generate_subqueries(q_rew)
+
+    # Truy hồi
     all_docs = []
     for sq in subqueries:
-        docs, _ = retrieve_documents(sq, top_k=6, rerank_k=15)
+        docs, _ = retrieve_documents(sq, top_k=6, rerank_k=20)
         all_docs.extend(docs)
 
-    # 3) Dedup theo content
-    uniq_by_content = {d["content"]: d for d in all_docs}
-    unique_docs = list(uniq_by_content.values())
-    if not unique_docs:
-        return "Xin lỗi, mình chưa tìm thấy thông tin phù hợp trong kho tài liệu CNXHKH."
+    # Gộp & lọc
+    uniq = {d["content"]: d for d in all_docs if d.get("content")}
+    unique_docs = list(uniq.values())
 
-    # 4) Rerank lại theo truy vấn gốc, NHỚ giữ filename
+    # Nếu không có doc (Qdrant down/collection rỗng) → fallback LLM-only
+    if not unique_docs:
+        fallback = f"""
+Bạn là gia sư về Tư tưởng Hồ Chí Minh. Trả lời rõ ràng, súc tích (~150–200 từ),
+ưu tiên các trục: độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng; đại đoàn kết;
+nhà nước của dân – do dân – vì dân; văn hoá; giáo dục; xây dựng Đảng.
+
+Câu hỏi: {user_query}
+"""
+        if model_name.lower() == "gemini":
+            return model_gen.generate_content(fallback).text.strip()
+        elif model_name.lower() in ["llama3", "gemma"]:
+            return generate_with_groq(fallback, model_name)
+        return "Unsupported model."
+
+    # Rerank lần 2 theo truy vấn gốc
     pairs = [(user_query, d["content"]) for d in unique_docs]
     scores = cross_encoder.predict(pairs)
     reranked = sorted(
-        [{"content": d["content"], "filename": d.get("filename","unknown"), "score": s}
+        [{"content": d["content"], "filename": d.get("filename", "unknown"), "score": s}
          for d, s in zip(unique_docs, scores)],
         key=lambda x: x["score"],
         reverse=True
     )
-    final_docs = [d for d in reranked if d["score"] >= 0.15]
-    if not final_docs:
-        return "Xin lỗi, mình chưa có câu trả lời đủ tin cậy từ tài liệu."
+    final_docs = [d for d in reranked if d["score"] >= 0.15] or reranked[:3]
 
     docs_context = "\n\n".join(d["content"] for d in final_docs[:5])
-    used_files = []
-    for d in final_docs[:3]:
-        if d.get("filename"): used_files.append(d["filename"])
-    used_files = list(dict.fromkeys(used_files))  # dedup
+    used_files = list(dict.fromkeys([d.get("filename") for d in final_docs[:3] if d.get("filename")]))
 
+    # Prompt trả lời theo TTHCM
     answer_prompt = f"""
-Bạn là một gia sư am hiểu Chủ nghĩa Xã hội Khoa học (tiếng Việt).
+Bạn là một gia sư am hiểu Tư tưởng Hồ Chí Minh (tiếng Việt).
 
-Hãy trả lời rõ ràng, khái quát hoá khái niệm cốt lõi (VD: sở hữu XHCN vs tư bản,
-quan hệ–lực lượng sản xuất, nhà nước, chuyên chính vô sản, dân chủ XHCN, thời kỳ quá độ).
-Nếu câu hỏi mang tính so sánh/normative, ưu tiên khung lý luận kinh điển trước
-(Mác–Ăngghen–Lênin), sau đó mới gợi mở vận dụng (Việt Nam) nếu phù hợp.
-Giới hạn ~150–200 từ khi có thể. Trả lời bằng tiếng Việt.
+Yêu cầu trình bày:
+- Nêu luận điểm cốt lõi liên quan đến câu hỏi (độc lập dân tộc – CNXH; dân chủ; đạo đức cách mạng;
+  đại đoàn kết; nhà nước của dân – do dân – vì dân; giáo dục – văn hoá; xây dựng Đảng), có dẫn giải ngắn gọn.
+- Nếu câu hỏi so sánh/ứng dụng thực tiễn, ưu tiên khung TTHCM, có thể gợi mở liên hệ Việt Nam.
+- Giới hạn ~150–200 từ.
 
 CÂU HỎI:
 {user_query}
 
-Tư liệu nền (chỉ tham khảo, không cần nhắc tới):
+Tài liệu nền (chỉ để tham khảo, không cần trích nguyên văn):
 {docs_context}
 
 TRẢ LỜI:
 """
-
     if model_name.lower() == "gemini":
-        resp = model_gen.generate_content(answer_prompt)
-        ans = resp.text.strip()
-    elif model_name.lower() in ["gpt", "gemma"]:
+        ans = model_gen.generate_content(answer_prompt).text.strip()
+    elif model_name.lower() in ["llama3", "gemma"]:
         ans = generate_with_groq(answer_prompt, model_name)
     else:
-        ans = f"Unsupported model: {model_name}"
+        ans = "Unsupported model."
 
     if used_files:
         ans += "\n\nSources: " + "; ".join(used_files[:5])
