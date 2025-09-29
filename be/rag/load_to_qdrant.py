@@ -10,39 +10,73 @@ from qdrant_client.models import PointStruct, Distance, VectorParams
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import pytesseract
+from PIL import Image
 
 # ====== PDF extractor tốt cho VN ======
 # pip install pymupdf
-import fitz  # PyMuPDF
+# import fitz  # PyMuPDF
+
+try:
+    from PyPDF2 import PdfReader
+
+    # import pymupdf
+
+    PYPDF2_AVAILABLE = True
+except Exception:
+    PYPDF2_AVAILABLE = False
 
 # ====== Cấu hình ======
 QDRANT_URL = (os.getenv("QDRANT_URL") or "http://localhost:6333").rstrip("/")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY") or None
 
-COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong3")
 DATA_FOLDER = os.getenv("DATA_FOLDER", "./doc")
 
 # GPU nếu có
 import torch
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Model embedding
 EMBED_MODEL_NAME = "BAAI/bge-m3"  # 1024-dim
 VECTOR_SIZE = 1024
+CHUNK_SIZE = 360
 
 embed_model = SentenceTransformer(EMBED_MODEL_NAME, device=DEVICE)
 
+
 # ====== Helpers ======
 def extract_pdf_text(path: str) -> str:
-    text = []
+    if not PYPDF2_AVAILABLE:
+        print(f"[WARN] PyPDF2 chưa cài, bỏ qua PDF: {path}")
+        return ""
     try:
-        with fitz.open(path) as doc:
-            for p in doc:
-                text.append(p.get_text())
-        return "\n".join(text)
+        # reader = pymupdf.open(path)
+        # pages = []
+        # for p in reader:
+        #     image = p.()
+        #     # image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        #     txt = pytesseract.image_to_string(image, lang="vie")
+        #     pages.append(txt)
+        #     print(txt)
+        # return "\n".join(pages)
+
+        reader = PdfReader(path)
+        pages = []
+        for p in reader.pages:
+            txt = p.extract_text() or ""
+            pages.append(txt)
+            # print(txt)
+        return "\n".join(pages)
+
+        # with PdfReader.open(path) as doc:
+        #     for p in doc:
+        #         pages.append(p.get_text())
     except Exception as e:
         print(f"[WARN] Lỗi đọc PDF {path}: {e}")
         return ""
+
 
 def read_text_with_fallback(path: str) -> str:
     encs = ["utf-8", "utf-8-sig", "cp1258", "cp1252", "latin-1"]
@@ -55,13 +89,17 @@ def read_text_with_fallback(path: str) -> str:
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         return f.read()
 
+
 def iter_source_files(folder: str):
     for fn in os.listdir(folder):
         ext = os.path.splitext(fn)[1].lower()
         if ext in (".pdf", ".txt", ".md", ".json"):
             yield fn, ext
 
-def split_into_chunks(text: str, max_words: int = 180, overlap_words: int = 40) -> List[str]:
+
+def split_into_chunks(
+    text: str, max_words: int = 180, overlap_words: int = 40
+) -> List[str]:
     # Fallback length-based (ổn định với PDF)
     words = text.strip().split()
     chunks, i = [], 0
@@ -72,9 +110,16 @@ def split_into_chunks(text: str, max_words: int = 180, overlap_words: int = 40) 
         i = j - overlap_words if (j < len(words)) else j
     return [c.strip() for c in chunks if c.strip()]
 
-def split_into_semantic_chunks(text: str, buffer_size: int = 1, threshold: float = 0.7) -> List[str]:
+
+def split_into_semantic_chunks(
+    text: str, buffer_size: int = 1, threshold: float = 0.7
+) -> List[str]:
     # Heuristic semantic split theo câu đơn giản (không phụ thuộc NLTK)
-    sents = [s.strip() for s in re.split(r'(?<=[\.\!\?…;])\s+|\n+', text.strip()) if s.strip()]
+    sents = [
+        s.strip()
+        for s in re.split(r"(?<=[\.\!\?…;])\s+|\n+", text.strip())
+        if s.strip()
+    ]
     if not sents:
         return []
     grouped = []
@@ -92,7 +137,7 @@ def split_into_semantic_chunks(text: str, buffer_size: int = 1, threshold: float
 
     for i, d in enumerate(distances):
         # Tách khi similarity thấp hoặc chunk quá dài
-        need_split = (1 - d) < threshold or cur_words > 180
+        need_split = (1 - d) < threshold or cur_words > CHUNK_SIZE
         if need_split:
             chunks.append(" ".join(cur))
             # overlap nhẹ
@@ -108,9 +153,10 @@ def split_into_semantic_chunks(text: str, buffer_size: int = 1, threshold: float
     # chặn trần độ dài lần cuối
     final = []
     for ch in chunks:
-        split_len = split_into_chunks(ch, max_words=200, overlap_words=40)
+        split_len = split_into_chunks(ch, max_words=CHUNK_SIZE, overlap_words=40)
         final.extend(split_len if split_len else [ch])
     return [c for c in final if c.strip()]
+
 
 def load_file_content(path: str, ext: str) -> str:
     if ext == ".pdf":
@@ -123,6 +169,7 @@ def load_file_content(path: str, ext: str) -> str:
         except Exception:
             return raw
     return read_text_with_fallback(path)  # .txt/.md
+
 
 # ====== Load & Embed ======
 def load_and_embed_documents(folder_path: str) -> List[Tuple[str, str, List[float]]]:
@@ -140,23 +187,29 @@ def load_and_embed_documents(folder_path: str) -> List[Tuple[str, str, List[floa
         # Dùng semantic trước, fallback length
         chunks = split_into_semantic_chunks(content)
         if not chunks:
-            chunks = split_into_chunks(content, max_words=200, overlap_words=40)
+            chunks = split_into_chunks(content, max_words=CHUNK_SIZE, overlap_words=40)
 
         for i, ch in enumerate(chunks, start=1):
             # bge-m3: prefix "passage: " hữu ích cho RAG
             emb = embed_model.encode("passage: " + ch)
             chunk_id = f"{fn}#c{i}"
             docs.append((chunk_id, ch, emb))
-            print(f"✅ {chunk_id} done.")
+
+    print(f"✅ {folder_path} done.")
     return docs
 
+
 # ====== Upload Qdrant ======
-def upload_to_qdrant(documents: List[Tuple[str, str, List[float]]], batch_size: int = 256):
+def upload_to_qdrant(
+    documents: List[Tuple[str, str, List[float]]], batch_size: int = 256
+):
     if not documents:
         print("[WARN] Không có document để upload.")
         return
 
-    qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=60.0, check_compatibility=False)
+    qdrant = QdrantClient(
+        url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=60.0, check_compatibility=False
+    )
 
     # recreate collection
     try:
@@ -167,25 +220,26 @@ def upload_to_qdrant(documents: List[Tuple[str, str, List[float]]], batch_size: 
 
     qdrant.create_collection(
         collection_name=COLLECTION_NAME,
-        vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE)
+        vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
     )
 
     total = len(documents)
     print(f"🔄 Uploading {total} vectors (batch={batch_size})")
     for i in range(0, total, batch_size):
-        batch = documents[i:i+batch_size]
+        batch = documents[i : i + batch_size]
         points = [
             PointStruct(
-                id=i + j,
-                vector=emb,
-                payload={"filename": name, "content": content}
+                id=i + j, vector=emb, payload={"filename": name, "content": content}
             )
             for j, (name, content, emb) in enumerate(batch)
         ]
         qdrant.upsert(collection_name=COLLECTION_NAME, points=points)
         print(f"✅ Uploaded {i+len(points)}/{total}")
 
+
 if __name__ == "__main__":
-    print(f"[cfg] QDRANT_URL={QDRANT_URL}  COLLECTION={COLLECTION_NAME}  MODEL={EMBED_MODEL_NAME}  DEVICE={DEVICE}")
+    print(
+        f"[cfg] QDRANT_URL={QDRANT_URL}  COLLECTION={COLLECTION_NAME}  MODEL={EMBED_MODEL_NAME}  DEVICE={DEVICE}"
+    )
     docs = load_and_embed_documents(DATA_FOLDER)
     upload_to_qdrant(docs)
