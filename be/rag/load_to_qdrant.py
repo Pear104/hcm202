@@ -31,7 +31,7 @@ QDRANT_URL = (os.getenv("QDRANT_URL") or "http://localhost:6333").rstrip("/")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY") or None
 
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong3")
-DATA_FOLDER = os.getenv("DATA_FOLDER", "./doc")
+DATA_FOLDER = os.getenv("DATA_FOLDER", "./doc-new")
 
 # GPU nếu có
 import torch

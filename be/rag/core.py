@@ -16,6 +16,7 @@ from .generator import generate_with_groq, generate_with_gemini
 # ================== CẤU HÌNH MÔ HÌNH ==================
 # GPU nếu có
 import torch
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Khuyến nghị cho VN + đa ngữ, 1024-dim
@@ -30,9 +31,11 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model_gen = genai.GenerativeModel("gemini-2.0-flash")
 
 # Qdrant
-COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong")  # bạn có thể đổi tuỳ ý
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "HCM_TuTuong3")  # bạn có thể đổi tuỳ ý
 
 _qdrant = None
+
+
 def get_qdrant():
     """Khởi tạo Qdrant client khi cần (tránh lỗi thứ tự import)."""
     global _qdrant
@@ -40,8 +43,11 @@ def get_qdrant():
         url = (os.getenv("QDRANT_URL") or "").rstrip("/")
         api_key = os.getenv("QDRANT_API_KEY") or None
         print(f"[rag.core] QDRANT_URL={url or '<empty>'}  COLLECTION={COLLECTION_NAME}")
-        _qdrant = QdrantClient(url=url, api_key=api_key, timeout=30.0, check_compatibility=False)
+        _qdrant = QdrantClient(
+            url=url, api_key=api_key, timeout=30.0, check_compatibility=False
+        )
     return _qdrant
+
 
 # ================== TIỆN ÍCH PROMPT/ROUTER ==================
 def rewrite_query(original_query: str) -> str:
@@ -66,7 +72,8 @@ Bản viết lại (một dòng, không giải thích):
     except Exception:
         return original_query
 
-def generate_subqueries(user_query: str, max_subqueries: int = 4) -> List[str]:
+
+def generate_subqueries(user_query: str, max_subqueries: int = 5) -> List[str]:
     prompt = f"""
 Bạn là trợ lý tách truy vấn cho chatbot Tư tưởng Hồ Chí Minh.
 
@@ -83,22 +90,36 @@ Danh sách (đánh số):
     try:
         resp = model_gen.generate_content(prompt)
         lines = (resp.text or "").strip().split("\n")
-        return [re.sub(r"^\d+\.\s*", "", L).strip() for L in lines if L.strip()][:max_subqueries]
+        return [re.sub(r"^\d+\.\s*", "", L).strip() for L in lines if L.strip()][
+            :max_subqueries
+        ]
     except Exception:
         return [user_query]
+
 
 def query_router(query: str) -> str:
     # Có thể mở rộng nếu bạn định multi-tool; hiện tại luôn dùng "document"
     terms = [
-        "tư tưởng hồ chí minh", "độc lập dân tộc", "chủ nghĩa xã hội", "dân chủ",
-        "đại đoàn kết", "đạo đức cách mạng", "nhà nước của dân do dân vì dân",
-        "giáo dục", "văn hoá", "xây dựng đảng", "hồ chí minh"
+        "tư tưởng hồ chí minh",
+        "độc lập dân tộc",
+        "chủ nghĩa xã hội",
+        "dân chủ",
+        "đại đoàn kết",
+        "đạo đức cách mạng",
+        "nhà nước của dân do dân vì dân",
+        "giáo dục",
+        "văn hoá",
+        "xây dựng đảng",
+        "hồ chí minh",
     ]
     q = query.lower()
     return "document" if any(k in q for k in terms) else "document"
 
+
 # ================== TRUY HỒI + RERANK ==================
-def retrieve_documents(query: str, top_k: int = 10, rerank_k: int = 30, rerank_threshold: float = 0.4):
+def retrieve_documents(
+    query: str, top_k: int = 20, rerank_k: int = 30, rerank_threshold: float = 0.3
+):
     qdrant = get_qdrant()
     try:
         # bge-m3: vẫn dùng prefix "query:"/"passage:" là tốt cho RAG
@@ -120,21 +141,27 @@ def retrieve_documents(query: str, top_k: int = 10, rerank_k: int = 30, rerank_t
     pairs = [(query, h.payload.get("content", "")) for h in hits]
     scores = cross_encoder.predict(pairs)
 
-    reranked = [(h, s) for h, s in zip(hits, scores) if s >= rerank_threshold] \
-               or [(h, s) for h, s in zip(hits, scores) if s >= 0.2]
+    reranked = [(h, s) for h, s in zip(hits, scores) if s >= rerank_threshold] or [
+        (h, s) for h, s in zip(hits, scores) if s >= 0.2
+    ]
     reranked_sorted = sorted(reranked, key=lambda x: x[1], reverse=True)
 
     def clean_filename(fn):  # gọn nguồn
         import os
+
         return os.path.splitext(fn)[0]
 
-    docs = [{
-        "filename": clean_filename(h.payload.get("filename", "unknown")),
-        "content": h.payload.get("content", ""),
-        "score": s
-    } for h, s in reranked_sorted[:top_k]]
+    docs = [
+        {
+            "filename": clean_filename(h.payload.get("filename", "unknown")),
+            "content": h.payload.get("content", ""),
+            "score": s,
+        }
+        for h, s in reranked_sorted[:top_k]
+    ]
 
     return docs, (max([d["score"] for d in docs]) if docs else 0.0)
+
 
 # ================== ENTRYPOINT CHÍNH ==================
 def generate_response(user_query: str, model_name: str = "gemini") -> str:
@@ -171,15 +198,23 @@ Câu hỏi: {user_query}
     pairs = [(user_query, d["content"]) for d in unique_docs]
     scores = cross_encoder.predict(pairs)
     reranked = sorted(
-        [{"content": d["content"], "filename": d.get("filename", "unknown"), "score": s}
-         for d, s in zip(unique_docs, scores)],
+        [
+            {
+                "content": d["content"],
+                "filename": d.get("filename", "unknown"),
+                "score": s,
+            }
+            for d, s in zip(unique_docs, scores)
+        ],
         key=lambda x: x["score"],
-        reverse=True
+        reverse=True,
     )
     final_docs = [d for d in reranked if d["score"] >= 0.15] or reranked[:3]
 
     docs_context = "\n\n".join(d["content"] for d in final_docs[:5])
-    used_files = list(dict.fromkeys([d.get("filename") for d in final_docs[:3] if d.get("filename")]))
+    used_files = list(
+        dict.fromkeys([d.get("filename") for d in final_docs[:3] if d.get("filename")])
+    )
 
     # Prompt trả lời theo TTHCM
     answer_prompt = f"""
@@ -189,7 +224,7 @@ Yêu cầu trình bày:
 - Nêu luận điểm cốt lõi liên quan đến câu hỏi (độc lập dân tộc – CNXH; dân chủ; đạo đức cách mạng;
   đại đoàn kết; nhà nước của dân – do dân – vì dân; giáo dục – văn hoá; xây dựng Đảng), có dẫn giải ngắn gọn.
 - Nếu câu hỏi so sánh/ứng dụng thực tiễn, ưu tiên khung TTHCM, có thể gợi mở liên hệ Việt Nam.
-- Giới hạn ~150–200 từ.
+- Giới hạn ~170–250 từ.
 
 CÂU HỎI:
 {user_query}
@@ -201,7 +236,7 @@ TRẢ LỜI:
 """
     if model_name.lower() == "gemini":
         ans = model_gen.generate_content(answer_prompt).text.strip()
-    elif model_name.lower() in ["llama3", "gemma"]:
+    elif model_name.lower() in ["gpt", "gemma"]:
         ans = generate_with_groq(answer_prompt, model_name)
     else:
         ans = "Unsupported model."
