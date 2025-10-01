@@ -5,45 +5,41 @@ import { RiOrganizationChart } from "react-icons/ri";
 export default function Banner() {
   return (
     <>
-      <div className="w-full grid grid-cols-2 mt-[8vw] p-[4vw] gap-[4vw]">
-        <div className="relative">
-          <div className="z-10 absolute top-0 left-0 w-[28vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-10deg]">
-            <img
-              className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
-              alt=""
-            />
-          </div>
-          <div className="absolute top-[2vw] left-[16vw] w-[24vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[14deg]">
-            <img
-              className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
-              alt=""
-            />
-          </div>
-        </div>
+      <div className="w-full grid grid-cols-2 p-[4vw] gap-[4vw]">
         <div className="">
-          <div className="unbounded text-[4vw] text-red-500 text-end">
-            Sự cần thiết
-            <br />
-            phải đoàn kết
-            <br />
-            quốc tế
+          <div className="unbounded text-[3.4vw] text-red-500 uppercase mt-[6vw]">
+            Nguyên tắc đoàn kết quốc tế
           </div>
-          <div className="inter italic text-end mt-[2vw]">
-            "Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống
-            người bóc lột và giống người bị bóc lột. Mà cũng chỉ có một mối
-            tình hữu ái là thật mà thôi: tình hữu ái vô sản".
+          <div className="inter italic mt-[2vw] text-[1.4vw]">
+             “Tự lực cánh sinh, dựa vào sức mình là chính” “Muốn người ta giúp
+            cho, thì trước mình phải tự giúp lấy mình đã”
           </div>
         </div>
+        <div className="relative">
+          <div className="z-10 absolute top-0 left-0 w-[24vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-10deg]">
+            <img
+              className="w-full aspect-square object-cover object-center rounded-xl"
+              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              alt=""
+            />
+          </div>
+          <div className="absolute top-[2vw] left-[16vw] w-[22vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[14deg]">
+            <img
+              className="w-full aspect-square object-cover object-center rounded-xl"
+              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              alt=""
+            />
+          </div>
+        </div>
+
         <div className="col-span-2 grid grid-cols-2 gap-[4vw] mt-[4vw]">
           <div className="rounded-3xl uppercase unbounded text-[1.2vw] bg-red-500 text-white text-center flex justify-center items-center p-[2vw]">
             <div className="">
               <div className="flex justify-center items-center mb-[1vw]">
                 <GrGroup size={40} />
               </div>
-              a. Thực hiện đoàn kết quốc tế nhằm kết hợp sức mạnh dân tộc với
-              sức mạnh thời đại, tạo sức mạnh tổng hợp cho cách mạng
+              A. Đoàn kết trên cơ sở thống nhất mục tiêu và lợi ích; có lý, có
+              tình
             </div>
           </div>
           <div className="rounded-3xl uppercase unbounded text-[1.2vw] bg-red-500 text-white text-center flex justify-center items-center p-[2vw]">
@@ -51,8 +47,7 @@ export default function Banner() {
               <div className="flex justify-center items-center mb-[1vw]">
                 <RiOrganizationChart size={40} />
               </div>
-              b. Thực hiện đoàn kết quốc tế nhằm góp phần cùng nhân dân thế giới
-              thực hiện thắng lợi các mục tiêu cách mạng của thời đại
+              B. Đoàn kết trên cơ sở độc lập, tự chủ
             </div>
           </div>
         </div>
