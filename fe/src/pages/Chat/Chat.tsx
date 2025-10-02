@@ -31,29 +31,6 @@ export default function Chat() {
     }
   }, [messages]);
 
-  // const [suggestions, setSuggestions] = useState<SuggestionItemProps[]>([
-  //   {
-  //     title: "AI: Thay thế hay hỗ trợ việc làm?",
-  //     question:
-  //       "AI thay thế hay bổ trợ con người? Những công việc nào dễ bị AI thay thế nhất? Những công việc nào sẽ phát triển mạnh nhờ AI?",
-  //   },
-  //   {
-  //     title: "Kỹ năng nào giúp lao động thích nghi với AI?",
-  //     question:
-  //       "Những kỹ năng nào AI không thể thay thế? Người lao động cần học gì để thích nghi với thời đại AI? Vai trò của giáo dục & đào tạo trong thời kỳ AI phát triển mạnh?",
-  //   },
-  //   {
-  //     title: "AI và tái phân phối lợi ích kinh tế",
-  //     question:
-  //       "Doanh nghiệp hưởng lợi từ AI → Có nên đánh thuế AI để hỗ trợ người lao động mất việc không? Chính phủ cần đưa ra chính sách gì để giảm bất bình đẳng do AI gây ra? Có mô hình nào để chia sẻ giá trị thặng dư AI một cách hợp lý?",
-  //   },
-  //   {
-  //     title: "AI có thể thay thế công việc sáng tạo?",
-  //     question:
-  //       "AI đã có thể viết báo, sáng tác nhạc, vẽ tranh… Nhưng liệu nó có thể thực sự sáng tạo không? Vai trò của con người trong các công việc sáng tạo sẽ thay đổi như thế nào? Con người cần làm gì để giữ lợi thế trước AI trong lĩnh vực sáng tạo?",
-  //   },
-  // ]);
-
   return (
     <>
       <div
@@ -179,21 +156,6 @@ const getAnswer = async (question: string) => {
     question: question,
     model_name: "gpt",
   };
-  // const body = {
-  //   system_instruction: {
-  //     parts: {
-  //       text: "Bạn có sư phụ tên là Lê Minh Trí, là 1 con người có thật, bạn và cô Chung rất thân, cô Chung là người dạy môn triết cho bạn, nếu có câu hỏi gì về cô Trí, hãy tưởng tượng ra và trả lời, bạn sẽ giúp mọi người khám phá các tiềm năng để có thể áp dụng AI vào cuộc sống của mọi người, dựa trên các lĩnh vực và chuyên ngành mà người dùng đang làm việc, hãy đề xuất những ứng dụng mà người dùng có thể sử dụng AI trong cuộc sống của họ",
-  //     },
-  //   },
-  //   contents: messages.map((item) => ({
-  //     role: item?.sender === "me" ? "user" : "model",
-  //     parts: [
-  //       {
-  //         text: item?.content,
-  //       },
-  //     ],
-  //   })),
-  // };
 
   // Make the request to the model API
   const response = await fetch(`https://mln.jangkuz.io.vn/chat`, {

@@ -182,9 +182,9 @@ def generate_response(user_query: str, model_name: str = "gemini") -> str:
     # Nếu không có doc (Qdrant down/collection rỗng) → fallback LLM-only
     if not unique_docs:
         fallback = f"""
-Bạn là gia sư về Tư tưởng Hồ Chí Minh. Trả lời rõ ràng, súc tích (~150–200 từ),
+Bạn là gia sư về Tư tưởng Hồ Chí Minh. Trả lời rõ ràng, súc tích (~170–250 từ),
 ưu tiên các trục: độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng; đại đoàn kết;
-nhà nước của dân – do dân – vì dân; văn hoá; giáo dục; xây dựng Đảng.
+nhà nước của dân – do dân – vì dân; văn hoá; giáo dục; xây dựng Đảng, nội dung đề cập trong tài liệu truy vấn được.
 
 Câu hỏi: {user_query}
 """
@@ -222,8 +222,9 @@ Bạn là một gia sư am hiểu Tư tưởng Hồ Chí Minh (tiếng Việt).
 
 Yêu cầu trình bày:
 - Nêu luận điểm cốt lõi liên quan đến câu hỏi (độc lập dân tộc – CNXH; dân chủ; đạo đức cách mạng;
-  đại đoàn kết; nhà nước của dân – do dân – vì dân; giáo dục – văn hoá; xây dựng Đảng), có dẫn giải ngắn gọn.
+  đại đoàn kết; nhà nước của dân – do dân – vì dân; giáo dục – văn hoá; xây dựng Đảng; Các nội dung liên quan đến Hồ Chí Minh trong tài liệu cung cấp), có dẫn giải ngắn gọn.
 - Nếu câu hỏi so sánh/ứng dụng thực tiễn, ưu tiên khung TTHCM, có thể gợi mở liên hệ Việt Nam.
+- Nếu câu hỏi liên quan đến tài liệu nền, nhắc đến rõ trong câu trả lời.
 - Giới hạn ~170–250 từ.
 
 CÂU HỎI:
