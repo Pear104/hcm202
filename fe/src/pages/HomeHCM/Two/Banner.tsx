@@ -8,17 +8,17 @@ export default function Banner() {
       <div className="w-full p-[4vw] gap-[4vw]">
         <div className="flex justify-center items-center">
           <div className="relative h-[32vw] w-full">
-            <div className="z-10 absolute top-0 left-1/2 -translate-x-[20%] w-[22vw] aspect-[9/11] rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-18deg]">
+            <div className="z-10 absolute top-0 left-1/2 -translate-x-[20%] w-[22vw] aspect-[9/11] rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-10deg]">
               <img
                 className="w-full aspect-[9/11] object-cover object-center rounded-xl"
-                src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+                src="images/2_banner2.jpg"
                 alt=""
               />
             </div>
-            <div className="absolute top-[2vw] left-1/2 -translate-x-[90%] w-[20vw] aspect-[9/11] rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[34deg]">
+            <div className="absolute top-[2vw] left-[45%] -translate-x-[90%] w-[20vw] aspect-[9/11] rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[10deg]">
               <img
                 className="w-full aspect-[9/11] object-cover object-center rounded-xl"
-                src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+                src="images/2_banner.jpg"
                 alt=""
               />
             </div>

@@ -19,14 +19,14 @@ export default function Banner() {
           <div className="z-10 absolute top-0 left-0 w-[24vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-10deg]">
             <img
               className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              src="images/3_banner.jpg"
               alt=""
             />
           </div>
           <div className="absolute top-[2vw] left-[16vw] w-[22vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[14deg]">
             <img
-              className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              className="w-full aspect-square object-cover object-left rounded-xl"
+              src="images/3_banner2.jpg"
               alt=""
             />
           </div>

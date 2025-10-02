@@ -9,7 +9,7 @@ export default function ASection() {
           <div>
             <img
               className="w-full aspect-[12/9] object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              src="images/2_A.png"
               alt=""
             />
           </div>

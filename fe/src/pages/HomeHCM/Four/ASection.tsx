@@ -21,7 +21,7 @@ export default function ASection() {
               <div className="mt-[2vw]">
                 <img
                   className="w-full aspect-[14/9] object-cover object-center rounded-xl"
-                  src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+                  src="images/4_4.png"
                   alt=""
                 />
                 <div className="mt-[2vw] text-[1.4vw]">
@@ -35,13 +35,13 @@ export default function ASection() {
                 </div>
                 <img
                   className="w-full aspect-[15/9] object-cover object-center rounded-xl"
-                  src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+                  src="images/4_6.png"
                   alt=""
                 />
               </div>
               <img
                 className="col-span-2 w-full aspect-[27/9] object-cover object-center rounded-xl mt-[4vw]"
-                src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+                src="images/4_7.png"
                 alt=""
               />
             </div>

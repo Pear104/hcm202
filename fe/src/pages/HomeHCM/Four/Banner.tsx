@@ -26,14 +26,14 @@ export default function Banner() {
         <div className="col-span-5">
           <img
             className="w-full aspect-[9/10] object-cover object-center rounded-xl"
-            src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+            src="images/4_banner.jpg"
             alt=""
           />
         </div>
         <div className="col-span-6">
           <img
             className="w-full aspect-[9/6] object-cover object-center rounded-xl"
-            src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+            src="images/4_1.png"
             alt=""
           />
           <div className="text-red-500 text-[2.6vw] unbounded my-[4vw]">
@@ -41,7 +41,7 @@ export default function Banner() {
           </div>
           <img
             className="w-full aspect-[9/6] object-cover object-center rounded-xl"
-            src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+            src="images/4_3.png"
             alt=""
           />
         </div>
@@ -52,7 +52,7 @@ export default function Banner() {
           </div>
           <img
             className="w-full aspect-[9/6] object-cover object-center rounded-xl my-[6vw]"
-            src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+            src="images/4_2.png"
             alt=""
           />
           <div className="text-red-500 text-[2.6vw] unbounded">
