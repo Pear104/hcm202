@@ -206,7 +206,7 @@ export default function ChatPopup() {
           <div className="flex items-center gap-2">
             <button
               className="p-2 hover:bg-white/20 rounded-lg transition-all"
-              onClick={() => window.open("/chat", "_blank")}
+              onClick={() => window.open(`${window.location.origin}/chat`, "_blank", "noopener,noreferrer")}
               title="Mở trang chat đầy đủ"
             >
               <BsArrowsFullscreen className="text-white text-lg" />
