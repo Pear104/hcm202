@@ -28,6 +28,7 @@ ENV/
 .venv
 env.bak/
 venv.bak/
+.ubuntu-env
 
 # IDE specific files
 .idea/
