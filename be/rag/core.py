@@ -1,5 +1,6 @@
 # rag/core.py
 import os, re, json
+import logging
 from typing import List
 from dotenv import load_dotenv
 
@@ -12,6 +13,15 @@ from qdrant_client.http.exceptions import ResponseHandlingException
 import google.generativeai as genai
 
 from .generator import generate_with_groq, generate_with_gemini
+
+# ================== CAU HINH LOGGING =================
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter(
+    fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 # ================== CẤU HÌNH MÔ HÌNH ==================
 # GPU nếu có
@@ -131,6 +141,7 @@ def retrieve_documents(
             with_payload=True,
             with_vectors=False,
         )
+        print(f"[rag.core] Finish qdrant query")
     except Exception as e:
         print(f"[rag.core] Qdrant search error: {e}")
         return [], 0.0
