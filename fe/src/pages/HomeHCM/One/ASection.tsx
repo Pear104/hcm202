@@ -1,4 +1,71 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+
+function ToggleCard({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Sử dụng CSS Grid thay vì max-height cho animation mượt hơn
+  return (
+    <div
+      className={
+        open
+          ? "bg-[#ec3343] rounded-3xl px-[2vw] py-[1vw] transition-colors duration-300"
+          : "rounded-3xl px-[2vw] py-[1vw] border border-zinc-500 transition-colors duration-300"
+      }
+    >
+      {/* Header */}
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between text-left select-none focus:outline-none"
+      >
+        <div className="text-[1.5vw] unbounded uppercase text-white font-bold">
+          {title}
+        </div>
+        <span
+          className="inline-flex items-center justify-center w-[2vw] h-[2vw] rounded-lg bg-white/10 transition-all duration-300"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className={
+              "w-[1.2vw] h-[1.2vw] text-white transition-transform duration-300 ease-out " +
+              (open ? "rotate-0" : "rotate-180")
+            }
+            fill="currentColor"
+          >
+            <path d="M12 7l7 10H5z" />
+          </svg>
+        </span>
+      </button>
+
+      {/* Content wrapper: sử dụng grid-rows để animate mượt mà */}
+      <div
+        className={
+          "grid transition-all duration-500 ease-in-out " +
+          (open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")
+        }
+      >
+        <div ref={contentRef} className="overflow-hidden">
+          <div className={open ? "mt-[0.8vw] mb-[0.4vw]" : ""}>
+            <div className="text-white/95 text-[1.1vw] leading-relaxed">
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ASection() {
   return (
@@ -8,15 +75,15 @@ export default function ASection() {
           <div>
             <img
               className="w-full aspect-[10/9] object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              src="images/1_A.png"
               alt=""
             />
           </div>
           <div className="">
-            <div className="unbounded text-[4vw] text-[#FF2F2F] text-end capitalize leading-[4.4vw] pr-[1.5vw] border-r-[1vw]">
+            <div className="unbounded text-[4vw] text-[#ec3343] text-end capitalize leading-[4.4vw] pr-[1.5vw] border-r-[1vw]">
               A
             </div>
-            <div className="unbounded text-[4vw] text-red-500/90 text-end capitalize">
+            <div className="unbounded text-[4vw] text-[#ec3343] text-end capitalize">
               Kết hợp sức mạnh dân tộc với sức mạnh thời đại
             </div>
             <div className="inter italic text-end mt-[2vw]">
@@ -30,46 +97,41 @@ export default function ASection() {
             </div>
           </div>
         </div>
+
         <div className="mt-[4vw] flex flex-col items-center">
-          <div className="unbounded text-[3.6vw] text-red-500 text-center capitalize">
+          <div className="unbounded text-[3.6vw] text-[#ec3343] text-center capitalize">
             Sức mạnh dân tộc và sức mạnh thời đại
           </div>
+
           <div className="w-[64vw] space-y-[1vw] mt-[2vw]">
-            <div className="rounded-3xl px-[2vw] py-[1vw] border border-zinc-500">
-              <div className="text-[1.5vw] unbounded uppercase">
-                Sức mạnh dân tộc
-              </div>
-              <div className="h-0 overflow-hidden">
-                Sức mạnh dân tộc là sự tổng hợp của các yếu tố vật chất và tinh
-                thần, trước hết là sức mạnh của chủ nghĩa yêu nước, ý thức tự
-                lực tự cường, tinh thần đoàn kết và ý chí đấu tranh anh dũng,
-                bất khuất vì độc lập, tự do. Chính những yếu tố này đã giúp dân
-                tộc Việt Nam vượt qua mọi khó khăn, thử thách trong sự nghiệp
-                dựng nước và giữ nước.
-              </div>
-            </div>
-            <div className="bg-red-500 rounded-3xl px-[2vw] py-[1vw]">
-              <div className="text-[1.5vw] unbounded uppercase">
-                Sức mạnh thời đại
-              </div>
-              <div className="h-fit overflow-hidden">
-                Sức mạnh thời đại là sức mạnh của phong trào cách mạng thế giới,
-                được hun đúc từ thành quả lý luận và thực tiễn của chủ nghĩa Mác
-                – Lênin, đặc biệt được khẳng định qua thắng lợi vĩ đại của Cách
-                mạng Tháng Mười Nga năm 1917. Đây còn là sức mạnh đến từ phong
-                trào giải phóng dân tộc, phong trào cách mạng của giai cấp công
-                nhân quốc tế, sự tiến bộ vượt bậc của khoa học – kỹ thuật và sự
-                đồng tình, ủng hộ to lớn của nhân dân tiến bộ trên thế giới. Hồ
-                Chí Minh đã sớm xác định cách mạng Việt Nam là một bộ phận khăng
-                khít của cách mạng thế giới và chỉ có thể đi đến thành công khi
-                gắn bó, đoàn kết chặt chẽ với phong trào cách mạng quốc tế. Đây
-                là nhận thức mới mẻ, tiến bộ so với các bậc tiền bối, thể hiện
-                rõ vai trò quyết định của đoàn kết quốc tế đối với thắng lợi của
-                cách mạng Việt Nam.
-              </div>
-            </div>
+            {/* Toggle giữ nguyên CSS gốc từng khối */}
+            <ToggleCard title="Sức mạnh dân tộc" defaultOpen={false}>
+              Sức mạnh dân tộc là sự tổng hợp của các yếu tố vật chất và tinh
+              thần, trước hết là sức mạnh của chủ nghĩa yêu nước, ý thức tự lực
+              tự cường, tinh thần đoàn kết và ý chí đấu tranh anh dũng, bất
+              khuất vì độc lập, tự do. Chính những yếu tố này đã giúp dân tộc
+              Việt Nam vượt qua mọi khó khăn, thử thách trong sự nghiệp dựng
+              nước và giữ nước.
+            </ToggleCard>
+
+            <ToggleCard title="Sức mạnh thời đại" defaultOpen={true /* mở sẵn như block đỏ ban đầu */}>
+              Sức mạnh thời đại là sức mạnh của phong trào cách mạng thế giới,
+              được hun đúc từ thành quả lý luận và thực tiễn của chủ nghĩa Mác –
+              Lênin, đặc biệt được khẳng định qua thắng lợi vĩ đại của Cách
+              mạng Tháng Mười Nga năm 1917. Đây còn là sức mạnh đến từ phong
+              trào giải phóng dân tộc, phong trào cách mạng của giai cấp công
+              nhân quốc tế, sự tiến bộ vượt bậc của khoa học – kỹ thuật và sự
+              đồng tình, ủng hộ to lớn của nhân dân tiến bộ trên thế giới. Hồ
+              Chí Minh đã sớm xác định cách mạng Việt Nam là một bộ phận khăng
+              khít của cách mạng thế giới và chỉ có thể đi đến thành công khi
+              gắn bó, đoàn kết chặt chẽ với phong trào cách mạng quốc tế. Đây
+              là nhận thức mới mẻ, tiến bộ so với các bậc tiền bối, thể hiện rõ
+              vai trò quyết định của đoàn kết quốc tế đối với thắng lợi của
+              cách mạng Việt Nam.
+            </ToggleCard>
           </div>
-          <div className="unbounded text-[3.6vw] text-red-500 text-center capitalize py-[2vw]">
+
+          <div className="unbounded text-[3.6vw] text-[#ec3343] text-center capitalize py-[2vw]">
             Đại đoàn kết dân tộc gắn liền với
             <br />
             đoàn kết quốc tế

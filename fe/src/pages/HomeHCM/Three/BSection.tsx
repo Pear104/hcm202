@@ -5,15 +5,9 @@ export default function BSection() {
   return (
     <>
       <>
-        <div className="p-[2vw]">
-          <div className="unbounded text-[3vw] text-[#FF2F2F] capitalize leading-[3.4vw] pl-[1.5vw] border-l-[1vw]">
-            B
-          </div>
-          <div className="unbounded text-[4vw] text-red-500/90 capitalize mt-[1vw]">
-            Kết hợp sức mạnh dân tộc với sức mạnh thời đại
-          </div>
-          <div className="w-full border border-dashed translate-y-[6vw]"></div>
-          <div className="grid grid-cols-3 gap-x-[6vw] mt-[4vw] gap-y-[2vw]">
+        <div className="px-[2vw]">
+          <div className="w-full border border-dashed translate-y-[4vw]"></div>
+          <div className="grid grid-cols-3 gap-x-[6vw] mt-[2vw] gap-y-[2vw]">
             <div className="relative unbounded w-[4vw] aspect-square bg-red-500 rounded-full flex items-center justify-center text-[2vw]">
               1
               <div className="right-[-1vw] top-[0.1vw] absolute unbounded w-[2vw] h-[2vw] text-black bg-white border border-black rounded-full flex items-center justify-center">
@@ -83,17 +77,55 @@ export default function BSection() {
               </div>
             </div>
           </div>
-          <div className="mt-[4vw] flex flex-col items-center">
-            <div className="unbounded text-[3.6vw] text-red-500 text-center capitalize">
-              Thắng lợi của tư tưởng Hồ Chí Minh
+          <div className="unbounded text-[3vw] text-[#FF2F2F] capitalize leading-[3.4vw] pl-[1.5vw] border-l-[1vw] mt-[4vw]">
+            B
+          </div>
+          <div className="unbounded text-[4vw] text-red-500/90 uppercase mt-[1vw]">
+            Đoàn kết trên cơ sở
+            <br />
+            độc lập, tự chủ
+          </div>
+          <div className="mt-[4vw] grid grid-cols-2 gap-x-[4vw] pb-[2vw]">
+            <div className="col-span-2 text-[1.4vw]">
+              Trong tư tưởng Hồ Chí Minh, đoàn kết quốc tế nhằm tranh thủ sự
+              đồng tình, ủng hộ và giúp đỡ của bạn bè quốc tế, qua đó tăng thêm
+              nội lực, tạo sức mạnh để thực hiện thắng lợi các nhiệm vụ cách
+              mạng đã đề ra. Tuy nhiên, để đoàn kết quốc tế có hiệu quả thì
+              trước hết phải có nội lực vững mạnh, bởi nội lực là nhân tố quyết
+              định, còn nguồn lực ngoại sinh chỉ có thể phát huy tác dụng khi
+              dựa trên nền tảng nội sinh. Chính vì vậy, Người luôn nêu cao khẩu
+              hiệu: “Tự lực cánh sinh, dựa vào sức mình là chính”, “Muốn người
+              ta giúp cho, thì trước mình phải tự giúp lấy mình đã.” Trong quá
+              trình đấu tranh giành chính quyền, Hồ Chí Minh khẳng định “đem sức
+              ta mà tự giải phóng cho ta.”
             </div>
-            <div className="w-[64vw] space-y-[1vw] mt-[2vw] text-center text-[1.6vw]">
-              Thắng lợi của cách mạng Việt Nam trong nhiều thập kỷ qua chính là
-              minh chứng sinh động cho tư tưởng Hồ Chí Minh: độc lập dân tộc
-              phải luôn gắn liền với chủ nghĩa xã hội. Đây vừa là đường lối
-              chiến lược, vừa là kết tinh của sự kết hợp giữa sức mạnh dân tộc
-              với sức mạnh thời đại, giữa chủ nghĩa yêu nước và chủ nghĩa quốc
-              tế vô sản.
+            <div className="mt-[2vw]">
+              <img
+                className="w-full aspect-[14/9] object-cover object-center rounded-xl"
+                src="images/3_B.png"
+                alt=""
+              />
+              <div className="mt-[2vw] text-[1.4vw]">
+                Trả lời một phóng viên nước ngoài, Người khẳng định: “Độc lập
+                nghĩa là chúng tôi điều khiển lấy mọi công việc của chúng tôi,
+                không có sự can thiệp ở ngoài vào.” Đồng thời, Hồ Chí Minh xác
+                định nguyên tắc đoàn kết: “Các Đảng dù lớn dù nhỏ đều độc lập và
+                bình đẳng, đồng thời đoàn kết nhất trí giúp đỡ lẫn nhau.”
+              </div>
+            </div>
+            <div className="mt-[2vw]">
+              <div className="mb-[2vw] text-[1.4vw]">
+                Trong kháng chiến chống thực dân Pháp, Người nhấn mạnh: “Một dân
+                tộc không tự lực cánh sinh mà cứ ngồi chờ dân tộc khác giúp đỡ
+                thì không xứng đáng được độc lập.” Trong quan hệ quốc tế, Người
+                chỉ rõ: phải có thực lực, bởi “thực lực là cái chiêng, ngoại
+                giao là cái tiếng, chiêng có to tiếng mới lớn.”
+              </div>
+              <img
+                className="w-full aspect-[14/9] object-cover object-center rounded-xl"
+                src="images/3_B2.png"
+                alt=""
+              />
             </div>
           </div>
         </div>

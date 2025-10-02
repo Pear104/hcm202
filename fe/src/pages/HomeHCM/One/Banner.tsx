@@ -5,19 +5,19 @@ import { RiOrganizationChart } from "react-icons/ri";
 export default function Banner() {
   return (
     <>
-      <div className="w-full grid grid-cols-2 h-screen mt-[8vw] p-[4vw] gap-[4vw]">
+      <div className="w-full grid grid-cols-2 mt-[8vw] p-[4vw] gap-[4vw]">
         <div className="relative">
           <div className="z-10 absolute top-0 left-0 w-[28vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[-10deg]">
             <img
               className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              src="images/1_banner.jpg"
               alt=""
             />
           </div>
           <div className="absolute top-[2vw] left-[16vw] w-[24vw] aspect-square rounded-3xl flex justify-center items-center p-[2vw] bg-white/20 backdrop-blur-2xl rotate-[14deg]">
             <img
               className="w-full aspect-square object-cover object-center rounded-xl"
-              src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
+              src="images/1_banner2.jpg"
               alt=""
             />
           </div>
@@ -33,7 +33,7 @@ export default function Banner() {
           <div className="inter italic text-end mt-[2vw]">
             "Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống
             người bóc lột và giống người bị bóc lột. Mà cũng chỉ có một mối
-            tình hữu ái là thật mà thôi: tình hữu ái vô sản".
+            tình hữu ái là thật mà thôi: tình hữu ái vô sản".
           </div>
         </div>
         <div className="col-span-2 grid grid-cols-2 gap-[4vw] mt-[4vw]">

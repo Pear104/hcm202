@@ -1,4 +1,5 @@
 import MainLayout from "@/layouts/MainLayout";
+import Five from "@/pages/HomeHCM/Five/Five";
 import Four from "@/pages/HomeHCM/Four/Four";
 import HomeHCM from "@/pages/HomeHCM/HomeHCM";
 import One from "@/pages/HomeHCM/One/One";
@@ -16,6 +17,7 @@ export default function MainRoutes() {
           <Route path="2" element={<Two />} />
           <Route path="3" element={<Three />} />
           <Route path="4" element={<Four />} />
+          <Route path="5" element={<Five />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import React from "react";
+import { FaUser } from "react-icons/fa";
 
 export default function Document() {
   useGSAP(() => {
@@ -21,28 +22,68 @@ export default function Document() {
 
   const items = [
     {
-      title: "Quyền làm chủ của nhân dân ngày càng được mở rộng",
-      description:
-        "Gần 40 năm đổi mới cho thấy quyền làm chủ của nhân dân được bảo đảm trên mọi lĩnh vực kinh tế, chính trị, văn hóa – xã hội. Dân chủ không chỉ thể hiện trong Hiến pháp, pháp luật mà còn hiện diện sinh động trong đời sống xã hội, góp phần củng cố sức mạnh đại đoàn kết toàn dân tộc.",
-      image: "/images/mo-rong.jpg",
+      type: "Giáo trình",
+      title: "Tư tưởng Hồ Chí Minh",
+      time: "2021",
+      author: "NXBCTQGST",
+      link: "https://www.google.com/",
+      image: "/images/giao_trinh.jpg",
     },
     {
-      title: "Nhân dân tham gia trực tiếp vào đời sống chính trị",
-      description:
-        "Người dân ngày càng có nhiều cơ hội đóng góp ý kiến vào các dự thảo chính sách, pháp luật, cũng như thực hiện quyền bầu cử Quốc hội và Hội đồng nhân dân các cấp. Hàng chục nghìn hội nghị đối thoại giữa chính quyền và nhân dân được tổ chức, tạo sự đồng thuận và gắn kết giữa Đảng, Nhà nước và nhân dân.",
-      image: "/images/tham-gia.jpg",
+      type: "Website",
+      title: "hochiminh.vn",
+      time: "2022",
+      author: "TS Minh Dương",
+      link: "https://hochiminh.vn/tu-tuong-dao-duc-ho-chi-minh/nghien-cuu-tu-tuong-dao-duc-ho-chi-minh/van-dung-tu-tuong-ho-chi-minh-ve-mat-tran-dan-toc-thong-nhat-trong-xay-dung-khoi-dai-doan-ket-dan-toc-hien-nay-7775",
+      image: "/images/web1.png",
     },
     {
-      title: "Khung pháp lý về dân chủ được hoàn thiện",
-      description:
-        "Nhiều đạo luật và nghị định quan trọng đã được ban hành nhằm phát huy quyền làm chủ của nhân dân, như Luật Mặt trận Tổ quốc Việt Nam (2015), Luật Trưng cầu ý dân (2015), Luật Thực hiện dân chủ ở cơ sở (2022). Đây là cơ sở pháp lý để nhân dân tham gia quản lý xã hội và giám sát hoạt động của Nhà nước.",
-      image: "/images/phap-ly.jpg",
+      type: "Website",
+      title: "tuyenquang.dcs.vn",
+      time: "2024",
+      author: "--",
+      link: "https://tuyenquang.dcs.vn/DetailView/148090/40/Tuyen-Quang---Noi-ghi-dau-tinh-doan-ket-Viet-Nam---Lao---Campuchia.html",
+      image: "/images/web2.png",},
+    
+      {
+      type: "Website",
+      title: "hochiminh.nhandan.vn",
+      time: "2023",
+      author: "Lê Quốc Minh",
+      link: "https://hochiminh.nhandan.vn/mat-tran-thong-nhat-a-phi-977.html",
+      image: "/images/web3.png",
     },
     {
-      title: "Hệ thống chính trị đổi mới phương thức hoạt động",
-      description:
-        "Hoạt động của các cơ quan quyền lực được tăng cường hiệu lực và hiệu quả. Nghị quyết số 27-NQ/TW (2022) khẳng định quyền con người, quyền công dân đã được cụ thể hóa bằng pháp luật và thực hiện tốt hơn trên thực tế; đồng thời, cả dân chủ trực tiếp và dân chủ đại diện đều được phát huy.",
-      image: "/images/doi-moi.jpg",
+      type: "Website",
+      title: "ct.qdnd.vn",
+      time: "2015",
+      author: "Ngô Văn Lương",
+      link: "https://ct.qdnd.vn/quoc-te/phong-trao-phan-chien-cua-binh-linh-phap-trong-chien-tranh-o-viet-nam-517527",
+      image: "/images/web4.png",
+    },
+    {
+      type: "Website",
+      title: "nhandan.vn",
+      time: "2025",
+      author: "Trần Anh Tuấn",
+      link: "https://nhandan.vn/phong-trao-phan-chien-chong-chien-tranh-xam-luoc-viet-nam-cua-nhan-dan-my-post866549.html",
+      image: "/images/web6.png",
+    },
+    {
+      type: "Website",
+      title: "tapchicongsan.org.vn",
+      time: "2023",
+      author: "Đỗ Ngọc Hanh",
+      link: "https://www.tapchicongsan.org.vn/web/guest/quoc-phong-an-ninh-oi-ngoai1/-/2018/827273/van-dung-tu-tuong-ho-chi-minh-ve-doan-ket%2C-hop-tac-quoc-te-trong-duong-loi-doi-ngoai-cua-viet-nam-hien-nay.aspx",
+      image: "/images/web7.png",
+    },
+    {
+      type: "Website",
+      title: "baocaovien.vn",
+      time: "2025",
+      author: "--",
+      link: "https://hcmiu.edu.vn/sinh-vien-le-nguyen-bao-ngoc-tham-gia-cop29-hoi-nghi-thuong-dinh-ve-bien-doi-khi-hau-cua-lien-hop-quoc-nam-2024/",
+      image: "/images/web8.png",
     },
   ];
 
@@ -50,18 +91,18 @@ export default function Document() {
     <>
       <div
         id="scroll-section"
-        className="w-screen h-[240vh] relative group py-[4vw]"
+        className="w-screen h-[140vw] relative group py-[4vw]"
       >
         <div
           id="scroll-title"
-          className="sticky top-[8vw] font-semibold text-[6vh] uppercase overflow-x-scroll w-screen"
+          className="sticky top-[8vw] text-[6vh] overflow-x-scroll w-screen"
         >
-          <div className="px-[4vw] unbounded text-red-500">
+          <div className="px-[4vw] unbounded text-red-500 font-semibold">
             Tài liệu tham khảo
           </div>
           <div
             id="scroll-wrapper"
-            className="flex gap-[4vw] w-[136vw] mx-[4vw] overflow-x-scroll mt-[2vw]"
+            className="flex gap-[3vw] w-[210vw] mx-[4vw] overflow-x-scroll mt-[2vw]"
           >
             {items.map((item, i) => (
               <SlideItem key={i} item={item} />
@@ -75,18 +116,35 @@ export default function Document() {
 
 const SlideItem = ({ item }: { item: any }) => {
   return (
-    <div className="horizontal-scroll flex flex-col items-center justify-center w-[20vw] gap-[2vh]">
+    <div className="horizontal-scroll flex flex-col justify-center w-[30vw] gap-[0.5vw] inter">
       <img
-        className="transition-all duration-400 opacity-100 rounded-xl shadow-lg aspect-[9/12] object-cover object-center w-full"
+        className="transition-all duration-400 opacity-100 rounded-xl shadow-lg aspect-[9/11] object-cover object-center w-full"
         src={item.image}
         loading="eager"
         alt=""
       />
-      <div className="text-[1.1vw] text-red-400 font-bold text-ellipsis text-wrap">
+      <div className="w-full text-[1.1vw] text-red-500 text-ellipsis text-wrap mt-[0.4vw]">
+        {item.type}
+      </div>
+      <div className="w-full font-semibold text-[1.1vw] text-white text-ellipsis text-wrap">
         {item.title}
       </div>
-      <div className="text-[1.1vw] text-yellow-400 text-nowrap font-bold">
-        {item.title}
+      <div className="w-full font-semibold text-[0.8vw] text-zinc-400 text-ellipsis text-wrap flex gap-4 items-center">
+        <div>{item.time}</div>|
+        <div className="flex gap-2 items-center">
+          <FaUser />
+          {item.author}
+        </div>
+      </div>
+      <div className="-translate-y-[1.4vw]">
+        <a
+          href={item.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[0.8vw] font-semibold hover:font-bold text-red-500 px-[1.4vw] py-[0.5vw] border hover:border-2 border-red-500 rounded-2xl cursor-pointer inline-block"
+        >
+          Truy cập
+        </a>
       </div>
     </div>
   );
