@@ -56,10 +56,15 @@ export default function Header() {
         <div>Nhóm 6</div>
       </div>
       <div className="flex gap-x-[1vw] items-center">
-        <div>Chat với AI</div>
-        <div className="px-[1vw] py-[0.4vw] bg-red-500 rounded-2xl">
+        <div
+         className={`${isActive(
+            "/chat"
+          )} cursor-pointer aspect-auto rounded-3xl flex justify-center items-center transition-all duration-300 hover:text-red-500 hover:bg-red-50 hover:p-[1vw]`}
+          onClick={() => navigate("/chat")}
+        >Chat với AI</div>
+        {/* <div className="px-[1vw] py-[0.4vw] bg-red-500 rounded-2xl">
           Kiểm tra kiến thức
-        </div>
+        </div> */}
       </div>
     </div>
   );
