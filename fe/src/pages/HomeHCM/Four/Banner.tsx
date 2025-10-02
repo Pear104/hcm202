@@ -1,6 +1,4 @@
 import React from "react";
-import { GrGroup } from "react-icons/gr";
-import { RiOrganizationChart } from "react-icons/ri";
 
 export default function Banner() {
   return (
