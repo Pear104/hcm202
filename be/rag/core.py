@@ -66,9 +66,9 @@ Bạn là trợ lý tối ưu truy vấn cho chatbot về Tư tưởng Hồ Chí
 
 Yêu cầu:
 - Viết lại câu hỏi ngắn gọn, học thuật, đúng trọng tâm TTHCM
-- Ưu tiên các chủ đề: độc lập dân tộc gắn với CNXH; dân tộc–giai cấp; đại đoàn kết
-  dân tộc; nhà nước của dân – do dân – vì dân; dân chủ; đạo đức cách mạng;
-  giáo dục – con người; văn hoá; đối ngoại; xây dựng Đảng.
+- Ưu tiên các chủ đề: độc lập dân tộc gắn với CNXH; dân tộc-giai cấp; đại đoàn kết
+  dân tộc; nhà nước của dân - do dân - vì dân; dân chủ; đạo đức cách mạng;
+  giáo dục - con người; văn hoá; đối ngoại; xây dựng Đảng.
 - Thêm từ đồng nghĩa/thuật ngữ tương đương có ích cho truy hồi.
 
 Gốc:
@@ -89,7 +89,7 @@ Bạn là trợ lý tách truy vấn cho chatbot Tư tưởng Hồ Chí Minh.
 
 Hãy tách câu hỏi dưới đây thành tối đa {max_subqueries} tiểu câu, mỗi câu chỉ 1 ý:
 (vd: độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng; đại đoàn kết;
-nhà nước của dân – do dân – vì dân; văn hoá; giáo dục con người; xây dựng Đảng).
+nhà nước của dân - do dân - vì dân; văn hoá; giáo dục con người; xây dựng Đảng).
 
 Không trùng lặp, gọn, dễ truy hồi.
 Câu gốc:
@@ -173,6 +173,47 @@ def retrieve_documents(
 
     return docs, (max([d["score"] for d in docs]) if docs else 0.0)
 
+# ================== Phân loại câu hỏi ==================
+def _classify_intent(q: str) -> str:
+    ql = q.lower()
+    academic_kw = [
+        "khái niệm", "luận điểm", "quan điểm", "nguyên tắc", "nội dung", "chuyên đề",
+        "bài học", "vận dụng", "môn học", "tư tưởng hồ chí minh", "đề cương", "ôn tập",
+        "độc lập gắn chủ nghĩa xã hội", "dân chủ", "đại đoàn kết", "đạo đức cách mạng",
+        "nhà nước của dân do dân vì dân", "xây dựng đảng", "giáo dục", "văn hóa"
+    ]
+    bio_kw = [
+        "tiểu sử", "quê", "năm sinh", "gia đình", "tuổi thơ", "câu chuyện", "giai thoại",
+        "tên gọi", "hành trình", "bút danh", "hoạt động", "búp sen xanh", "sơn tùng",
+        "trường", "làm việc", "bị bắt", "nhà tù", "bài báo", "bài viết", "người thân"
+    ]
+    if any(k in ql for k in academic_kw) and not any(k in ql for k in bio_kw):
+        return "academic"
+    if any(k in ql for k in bio_kw):
+        return "bio"
+    # mặc định: nếu hỏi khái quát/tổng quan → ưu tiên học thuật
+    return "academic"
+
+def _mk_sources_note(used_files):
+    if not used_files: 
+        return ""
+    # Gợi ý nguồn tự nhiên (nếu tên file gợi rõ, model có thể nhắc nhẹ)
+    # VD: Ho_Chi_Minh_Toan_Tap_Tap6.pdf, GiaoTrinh_TTHCM.pdf, Bup_Sen_Xanh.pdf
+    hints = []
+    for f in used_files:
+        fl = f.lower()
+        if "toan_tap" in fl or "toàn tập" in fl or "tap" in fl:
+            hints.append("Hồ Chí Minh Toàn tập")
+        elif "giao trinh" in fl or "giaotrinh" in fl or "tthcm" in fl:
+            hints.append("Giáo trình Tư tưởng Hồ Chí Minh")
+        elif "bup sen xanh" in fl or "búp sen xanh" in fl or "son tung" in fl or "sơn tùng" in fl:
+            hints.append("Búp sen xanh (Sơn Tùng)")
+    # khử trùng lặp
+    hints = list(dict.fromkeys(hints))
+    return "; ".join(hints) if hints else ""
+
+
+
 
 # ================== ENTRYPOINT CHÍNH ==================
 def generate_response(user_query: str, model_name: str = "gemini") -> str:
@@ -193,9 +234,9 @@ def generate_response(user_query: str, model_name: str = "gemini") -> str:
     # Nếu không có doc (Qdrant down/collection rỗng) → fallback LLM-only
     if not unique_docs:
         fallback = f"""
-Bạn là gia sư về Tư tưởng Hồ Chí Minh. Trả lời rõ ràng, súc tích (~170–250 từ),
+Bạn là gia sư về Hồ Chí Minh và Tư tưởng Hồ Chí Minh. Trả lời rõ ràng, súc tích (~170-250 từ),
 ưu tiên các trục: độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng; đại đoàn kết;
-nhà nước của dân – do dân – vì dân; văn hoá; giáo dục; xây dựng Đảng, nội dung đề cập trong tài liệu truy vấn được.
+nhà nước của dân - do dân - vì dân; văn hoá; giáo dục; xây dựng Đảng, nội dung đề cập trong tài liệu truy vấn được.
 
 Câu hỏi: {user_query}
 """
@@ -226,33 +267,66 @@ Câu hỏi: {user_query}
     used_files = list(
         dict.fromkeys([d.get("filename") for d in final_docs[:3] if d.get("filename")])
     )
+    
+    # === Answer ===   
+    intent = _classify_intent(user_query)
+    sources_hint = _mk_sources_note(used_files)
 
-    # Prompt trả lời theo TTHCM
-    answer_prompt = f"""
-Bạn là một gia sư am hiểu Tư tưởng Hồ Chí Minh (tiếng Việt).
+    if intent == "academic":
+        # PHONG CÁCH MÔN HỌC TTHCM
+        answer_prompt = f"""
+    Bạn là gia sư môn **Tư tưởng Hồ Chí Minh** (tiếng Việt). Trả lời NGẮN GỌN nhưng MẠCH LẠC (≈170–250 từ),
+    dựa **duy nhất** vào trích đoạn trong phần "Tài liệu nền" (RAG). Không bịa nguồn; nếu tài liệu không nêu, nói "tài liệu chưa nêu rõ".
 
-Yêu cầu trình bày:
-- Nêu luận điểm cốt lõi liên quan đến câu hỏi (độc lập dân tộc – CNXH; dân chủ; đạo đức cách mạng;
-  đại đoàn kết; nhà nước của dân – do dân – vì dân; giáo dục – văn hoá; xây dựng Đảng; Các nội dung liên quan đến Hồ Chí Minh trong tài liệu cung cấp), có dẫn giải ngắn gọn.
-- Nếu câu hỏi so sánh/ứng dụng thực tiễn, ưu tiên khung TTHCM, có thể gợi mở liên hệ Việt Nam.
-- Nếu câu hỏi liên quan đến tài liệu nền, nhắc đến rõ trong câu trả lời.
-- Giới hạn ~170–250 từ.
+    Yêu cầu trình bày:
+    - Nêu **luận điểm cốt lõi** liên quan câu hỏi (độc lập dân tộc gắn CNXH; dân chủ; đạo đức cách mạng;
+    đại đoàn kết; **nhà nước của dân–do dân–vì dân**; giáo dục–văn hoá; xây dựng Đảng).
+    - Giải thích **ngắn gọn, có hệ thống** (khái niệm → ý nghĩa → liên hệ thực tiễn nếu tài liệu có).
+    - Nếu RAG có đoạn trùng/không chắc, hãy **làm rõ giới hạn** (“tài liệu chỉ cho biết…”, “chưa thấy trích dẫn…”).
 
-CÂU HỎI:
-{user_query}
+    CÂU HỎI:
+    {user_query}
 
-Tài liệu nền (chỉ để tham khảo, không cần trích nguyên văn):
-{docs_context}
+    TÀI LIỆU NỀN (trích RAG, dùng làm căn cứ; **không trích nguyên văn dài**):
+    {docs_context}
 
-TRẢ LỜI:
-"""
+    Nếu thích hợp, bạn có thể nhắc **nguồn tổng quát** như: {sources_hint if sources_hint else "—"}.
+
+    TRẢ LỜI (giữ giọng điệu học thuật, dễ hiểu):
+    """
+    else:
+        # PHONG CÁCH TIỂU SỬ/CÂU CHUYỆN TỰ NHIÊN, GẦN GŨI
+        answer_prompt = f"""
+    Bạn là người kể chuyện am hiểu **Chủ tịch Hồ Chí Minh** (tiếng Việt). Trả lời **tự nhiên, gần gũi, tôn trọng**,
+    nhưng **dựa duy nhất** vào "Tài liệu nền" (RAG). Không bịa chi tiết; nếu không chắc, nói rõ “tài liệu chưa nêu”.
+
+    Yêu cầu:
+    - Tập trung **thông tin tiểu sử, bối cảnh, câu chuyện đời** (tuổi thơ, hành trình, bút danh, giai thoại…),
+    diễn đạt mạch lạc, **tránh suy đoán**.
+    - Có thể chèn **chi tiết sinh động** nếu RAG có (địa danh, mốc thời gian, nhân vật liên quan).
+    - Cuối câu trả lời, nhắc **nguồn tổng quát** nếu phù hợp (vd. “Búp sen xanh”, “Hồ Chí Minh Toàn tập”…).
+
+    CÂU HỎI:
+    {user_query}
+
+    TÀI LIỆU NỀN (trích RAG, dùng làm căn cứ; không trích nguyên văn dài):
+    {docs_context}
+
+    Gợi ý nguồn tổng quát (nếu đúng với trích đoạn): {sources_hint if sources_hint else "—"}.
+
+    TRẢ LỜI (kể chuyện tự nhiên, 170–250 từ):
+    """
+
+    # Gọi LLM như cũ
     if model_name.lower() == "gemini":
         ans = model_gen.generate_content(answer_prompt).text.strip()
-    elif model_name.lower() in ["gpt", "gemma"]:
+    elif model_name.lower() in ["gpt", "gemma", "llama3"]:
         ans = generate_with_groq(answer_prompt, model_name)
     else:
         ans = "Unsupported model."
 
+    # + phần Sources như bạn đang làm
     if used_files:
         ans += "\n\nSources: " + "; ".join(used_files[:5])
+
     return ans
