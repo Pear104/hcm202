@@ -28,7 +28,7 @@
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  display: none; 
 }
 
 html {
@@ -56,4 +56,16 @@ canvas {
 .unbounded {
   font-family: "Unbounded", sans-serif;
   font-optical-sizing: auto;
+}
+
+.chat-scroll {
+  /* Cho iOS & Chrome mượt hơn */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain; /* tránh “bật” cuộn lên body */
+  /* Firefox & Edge: ẩn thanh cuộn nhưng vẫn cuộn */
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE/Edge cũ */
+}
+.chat-scroll::-webkit-scrollbar {
+  display: none; /* WebKit: ẩn thanh cuộn */
 }
