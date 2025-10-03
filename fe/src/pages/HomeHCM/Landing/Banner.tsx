@@ -10,7 +10,7 @@ export default function Banner() {
             src="https://images.pexels.com/photos/12001644/pexels-photo-12001644.png"
             alt=""
           />
-          <div className="z-10 absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black/50">
+          <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black/50">
             <div className="text-[4vw] font-bold unbounded">
               Sự cần thiết phải <br /> đoàn kết quốc tế
             </div>
