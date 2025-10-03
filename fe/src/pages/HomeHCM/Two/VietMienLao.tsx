@@ -17,7 +17,7 @@ export default function VietMienLao() {
           Pháp thắng lợi.
         </div>
         <div
-          className="text-red-500"
+          className="text-red-500 cursor-pointer hover:scale-[1.1] duration-300 transition-all"
           onClick={() => setIsOpen((prev) => !prev)}
         >
           Xem thêm
@@ -39,46 +39,63 @@ export default function VietMienLao() {
             B
           </div>
           <div className="text-red-500 unbounded text-[2vw] uppercase text-center my-[1vw]">
-            Mặt trận đại đoàn kết dân tộc
+            Mặt trận đoàn kết Việt – Miên – Lào
           </div>
-          <div className="mb-[4vw] w-[70vw] mx-auto">
-            Mặt trận đại đoàn kết dân tộc nhằm khơi dậy sức mạnh và quyền tự
-            quyết của mỗi dân tộc trong sự nghiệp đấu tranh cách mạng. Ngay từ
-            năm 1924, Hồ Chí Minh đã đưa ra quan điểm về việc thành lập “Mặt
-            trận thống nhất của nhân dân chính quốc và thuộc địa” để chống chủ
-            nghĩa đế quốc, đồng thời kiến nghị Quốc tế Cộng sản cần có những
-            giải pháp cụ thể nhằm biến quan điểm này thành hiện thực. Từ ngày
-            18/11/1930 đến nay, tổ chức Mặt trận Dân tộc thống nhất ở Việt Nam
-            đã nhiều lần thay đổi tên gọi để phù hợp với từng giai đoạn cách
-            mạng:
+          <div className="mb-[1vw] w-[70vw] mx-auto">
+            Mặt trận đoàn kết Việt – Miên – Lào được thành lập nhằm phối hợp và
+            giúp đỡ lẫn nhau trong cuộc đấu tranh giải phóng dân tộc, cùng hướng
+            tới thắng lợi.
           </div>
-          <div className="grid grid-cols-3 gap-x-[2vw] gap-y-[2vw] w-[70vw] mx-auto mb-[2vw]">
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
+          <div className="w-[70vw] mx-auto mb-[2vw]">
+            <div>
+              Bước sang năm 1951, cuộc kháng chiến chống thực dân Pháp của nhân
+              dân ba nước Đông Dương bước vào giai đoạn phát triển mới. Cục diện
+              chiến tranh có nhiều chuyển biến sâu sắc, xuất hiện nhiều thuận
+              lợi cơ bản nhưng cũng không ít khó khăn, phức tạp, đòi hỏi sự liên
+              kết chặt chẽ giữa ba dân tộc Việt Nam, Lào và Campuchia.
+            </div>
+            <div className="flex gap-[2vw] my-[2vw]">
+              <img
+                className="aspect-[17/9] object-cover object-center rounded-xl"
+                src="images/daihoi.jpg"
+                alt=""
+              />
+              <div>
+                Trong bối cảnh đó, Đại hội đại biểu lần thứ II của Đảng Cộng sản
+                Đông Dương (11–19/02/1951) tại xã Vinh Quang (nay thuộc xã Kim
+                Bình, huyện Chiêm Hóa, tỉnh Tuyên Quang) đã đưa ra nhiều quyết
+                sách quan trọng. Tại Đại hội, Chủ tịch Hồ Chí Minh nhấn mạnh:
+                “Chúng ta kháng chiến, dân tộc bạn Miên, Lào cũng kháng chiến.
+                Bọn thực dân Pháp và bọn can thiệp Mỹ, là kẻ thù của ta và của
+                dân tộc Miên, Lào. Vì vậy, ta phải ra sức giúp đỡ anh em Miên,
+                Lào, giúp đỡ kháng chiến Miên, Lào. Và tiến hành thành lập Mặt
+                trận thống nhất các dân tộc Việt – Miên – Lào.”
+              </div>
+            </div>
+            <div className="flex gap-[2vw] my-[2vw]">
+              <div>
+                Tiếp đó, vào tháng 3/1951, Hội nghị liên minh ba nước Đông Dương
+                được tổ chức tại xã Vinh Quang với sự tham dự của đại diện Mặt
+                trận Liên Việt (Việt Nam), Mặt trận Lào Ítxala và Mặt trận
+                Khơ-me Ítxarắc (Campuchia). Hội nghị đã thống nhất thành lập
+                khối liên minh nhân dân Việt – Miên – Lào trên nguyên tắc tự
+                nguyện, bình đẳng, tôn trọng chủ quyền và tương trợ lẫn nhau.
+                Hội nghị cũng kêu gọi nhân dân ba nước đoàn kết chặt chẽ trong
+                từng mặt trận của mình (Liên Việt ở Việt Nam, Ítxala ở Lào,
+                Ítxarắc ở Campuchia), củng cố khối liên minh ngày càng vững
+                chắc, đẩy mạnh cuộc kháng chiến mau chóng giành thắng lợi, đồng
+                thời củng cố và phát triển chính quyền dân tộc, chính quyền nhân
+                dân ở cả ba nước.
+              </div>
+              <img
+                className="aspect-[14/9] object-cover object-center rounded-xl"
+                src="images/viet-mien-lao.png"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       )}
     </>
   );
 }
-
-const Item = () => {
-  return (
-    <div className="">
-      <div className="bg-red-500 text-white rounded-r-2xl px-[1vw] py-[0.4vw] mb-[1vw] text-[1vw] unbounded">
-        19/11/1930
-      </div>
-      <div>
-        Ban Thường vụ Trung ương Đảng Cộng sản Đông Dương ra Chỉ thị thành lập
-        Hội Phản đế Đồng minh, hình thức đầu tiên của Mặt trận Dân tộc Thống
-        nhất Việt Nam dưới sự lãnh đạo của Đảng
-      </div>
-    </div>
-  );
-};

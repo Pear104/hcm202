@@ -16,7 +16,7 @@ export default function TheGioi() {
           chắc cho kháng chiến Việt Nam.
         </div>
         <div
-          className="text-red-500"
+          className="text-red-500 cursor-pointer hover:scale-[1.1] duration-300 transition-all"
           onClick={() => setIsOpen((prev) => !prev)}
         >
           Xem thêm
