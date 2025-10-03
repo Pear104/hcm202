@@ -6,7 +6,13 @@ const slides = [
     id: 1,
     path: "/1",
     image: "/images/landing_canthiet.png",
-    title: "Sự cần thiết phải đoàn kết quốc tế",
+    title: (
+      <div>
+        Sự cần thiết phải 
+        <br />
+        đoàn kết quốc tế
+      </div>
+    ),
     subtitle: (
       <div className="text-center">
         “Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống
