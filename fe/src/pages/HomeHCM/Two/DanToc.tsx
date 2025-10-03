@@ -75,12 +75,12 @@ export default function DanToc() {
           <br />
           dân tộc
         </div>
-        <div className="my-[2vw] text-center">
+        <div className="my-[2vw] text-center text-[1.2vw]">
           Hồ Chí Minh chủ trương xây dựng mặt trận thống nhất để khơi dậy sức
           mạnh toàn dân trong đấu tranh chống đế quốc.
         </div>
         <div
-          className="text-red-500"
+          className="text-red-500 cursor-pointer hover:scale-[1.1] duration-300 transition-all"
           onClick={() => setIsOpen((prev) => !prev)}
         >
           Xem thêm
