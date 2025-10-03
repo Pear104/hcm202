@@ -131,6 +131,15 @@ export default function ChatFullPage() {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isLoading]);
+  useEffect(() => {
+    // Cuộn xuống cuối khi component mount
+    if (messageEndRef.current) {
+      setTimeout(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: 'instant' });
+      }, 100);
+    }
+  }, []);
+
 
   const handleSendMessage = async (text: string) => {
     if (text.trim() === "") return;
@@ -300,9 +309,8 @@ const MessageItem = ({ data }: { data: MessageItemProps }) => {
 
   return (
     <div
-      className={`flex gap-4 ${
-        data.sender === "me" ? "justify-end" : "justify-start"
-      }`}
+      className={`flex gap-4 ${data.sender === "me" ? "justify-end" : "justify-start"
+        }`}
     >
       {data.sender === "model" && (
         <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -310,11 +318,10 @@ const MessageItem = ({ data }: { data: MessageItemProps }) => {
         </div>
       )}
       <div
-        className={`max-w-[70%] px-6 py-4 rounded-3xl ${
-          data.sender === "me"
+        className={`max-w-[70%] px-6 py-4 rounded-3xl ${data.sender === "me"
             ? "bg-yellow-600 text-white rounded-tr-md"
             : "bg-zinc-800 text-zinc-200 rounded-tl-md"
-        }`}
+          }`}
         style={{
           wordWrap: "break-word",
           overflowWrap: "break-word",

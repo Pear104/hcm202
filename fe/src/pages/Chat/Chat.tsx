@@ -148,6 +148,15 @@ export default function ChatPopup() {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isLoading]);
+  useEffect(() => {
+    // Cuộn xuống cuối khi mở chat
+    if (isOpen && messageEndRef.current) {
+      // Timeout nhỏ để đợi animation mở hoàn tất
+      setTimeout(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleSendMessage = async (text: string) => {
     if (text.trim() === "") return;
@@ -191,11 +200,10 @@ export default function ChatPopup() {
     <>
       {/* Floating Button */}
       <div
-        className={`fixed bottom-6 right-6 w-16 h-16 group hover:scale-110 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex justify-center items-center cursor-pointer z-60 duration-300 transition-all shadow-lg hover:shadow-xl ${
-          !isOpen
+        className={`fixed bottom-6 right-6 w-16 h-16 group hover:scale-110 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex justify-center items-center cursor-pointer z-60 duration-300 transition-all shadow-lg hover:shadow-xl ${!isOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-20 pointer-events-none"
-        }`}
+          }`}
         onClick={() => setIsOpen(true)}
       >
         <BiSolidBot className="text-black text-3xl group-hover:text-4xl duration-300 transition-all group-hover:rotate-12" />
@@ -204,11 +212,10 @@ export default function ChatPopup() {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-6 right-6 w-[400px] h-[600px] bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl flex flex-col shadow-2xl border border-zinc-800 duration-300 transition-all overflow-hidden ${
-          isOpen
+        className={`fixed bottom-6 right-6 w-[400px] h-[600px] bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl flex flex-col shadow-2xl border border-zinc-800 duration-300 transition-all overflow-hidden ${isOpen
             ? "opacity-100 translate-x-0 scale-100"
             : "opacity-0 translate-x-full scale-95 pointer-events-none"
-        } min-h-0`}
+          } min-h-0`}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-4 flex justify-between items-center flex-shrink-0">
@@ -351,9 +358,8 @@ const MessageItem = ({ data }: { data: MessageItemProps }) => {
 
   return (
     <div
-      className={`flex gap-3 ${
-        data.sender === "me" ? "justify-end" : "justify-start"
-      }`}
+      className={`flex gap-3 ${data.sender === "me" ? "justify-end" : "justify-start"
+        }`}
     >
       {data.sender === "model" && (
         <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -361,11 +367,10 @@ const MessageItem = ({ data }: { data: MessageItemProps }) => {
         </div>
       )}
       <div
-        className={`max-w-[75%] px-4 py-3 rounded-2xl ${
-          data.sender === "me"
+        className={`max-w-[75%] px-4 py-3 rounded-2xl ${data.sender === "me"
             ? "bg-yellow-600 text-white rounded-tr-sm"
             : "bg-zinc-800 text-zinc-200 rounded-tl-sm"
-        }`}
+          }`}
         style={{
           wordWrap: "break-word",
           overflowWrap: "break-word",

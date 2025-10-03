@@ -12,11 +12,9 @@ export default function Introduction() {
           Tư tưởng Hồ Chí Minh về đại đoàn kết toàn dân tộc và đoàn kết quốc tế
         </div>
         <div className="unbounded text-[6vw] text-red-500 text-center">
-          TƯ TƯỞNG HỒ CHÍ
+          TƯ TƯỞNG HỒ CHÍ MINH
           <br />
-          MINH VỀ ĐOÀN KẾT
-          <br />
-          QUỐC TẾ
+           VỀ ĐOÀN KẾT QUỐC TẾ
         </div>
         <div className="flex justify-center">
           <div className="text-center w-[44vw] text-[1vw]">
