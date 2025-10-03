@@ -1,4 +1,5 @@
 import MainLayout from "@/layouts/MainLayout";
+import Chat from "@/pages/Chat/Chat";
 import Five from "@/pages/HomeHCM/Five/Five";
 import Four from "@/pages/HomeHCM/Four/Four";
 import HomeHCM from "@/pages/HomeHCM/HomeHCM";

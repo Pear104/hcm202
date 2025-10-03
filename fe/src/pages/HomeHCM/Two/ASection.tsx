@@ -1,5 +1,9 @@
 import { div } from "motion/react-client";
 import React from "react";
+import DanToc from "./DanToc";
+import VietMienLao from "./VietMienLao";
+import APhi from "./APhi";
+import TheGioi from "./TheGioi";
 
 export default function ASection() {
   return (
@@ -50,10 +54,10 @@ export default function ASection() {
           </div>
         </div>
         <div className="w-full grid grid-cols-4 gap-[4vw] mt-[2vw] mb-[4vw]">
-          <Item />
-          <Item />
-          <Item />
-          <Item />
+          <DanToc />
+          <VietMienLao />
+          <APhi />
+          <TheGioi />
         </div>
       </div>
     </>
