@@ -12,7 +12,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.exceptions import ResponseHandlingException
 import google.generativeai as genai
 
-from .generator import generate_with_groq, generate_with_gemini
+from .generator import generate_with_groq, generate_with_gemini, generate_with_lmstudio
 
 # ================== CAU HINH LOGGING =================
 logger = logging.getLogger(__name__)
@@ -242,8 +242,10 @@ Câu hỏi: {user_query}
 """
         if model_name.lower() == "gemini":
             return model_gen.generate_content(fallback).text.strip()
-        elif model_name.lower() in ["llama3", "gemma"]:
+        elif model_name.lower() in ["gpt", "gemma"]:
             return generate_with_groq(fallback, model_name)
+        elif model_name.lower() in ["deepseek"]:
+            return generate_with_lmstudio(fallback, model_name)        
         return "Unsupported model."
 
     # Rerank lần 2 theo truy vấn gốc
@@ -322,6 +324,8 @@ Câu hỏi: {user_query}
         ans = model_gen.generate_content(answer_prompt).text.strip()
     elif model_name.lower() in ["gpt", "gemma", "llama3"]:
         ans = generate_with_groq(answer_prompt, model_name)
+    elif model_name.lower() in ["deepseek"]:
+        ans = generate_with_lmstudio(answer_prompt, model_name)    
     else:
         ans = "Unsupported model."
 
