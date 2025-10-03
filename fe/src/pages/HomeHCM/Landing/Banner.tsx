@@ -6,7 +6,7 @@ const slides = [
     id: 1,
     path: "/1",
     image: "/images/landing_canthiet.png",
-    title: " Lực lượng đoàn kết quốc tế và hình thức tổ chức",
+    title: "Sự cần thiết phải đoàn kết quốc tế",
     subtitle: (
       <div className="text-center">
         “Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống
@@ -21,7 +21,7 @@ const slides = [
     path: "/2",
 
     image: "/images/landing_lucluong.png",
-    title: "Đoàn kết quốc tế trong thời kỳ hội nhập",
+    title: "Lực lượng đoàn kết quốc tế và hình thức tổ chức",
     subtitle: (
       <div>
         Đoàn kết, đoàn kết, đại đoàn kết.Thành công, thành công, đại thành công
