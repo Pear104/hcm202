@@ -371,7 +371,7 @@ const TypingIndicator = () => (
 // ===== API
 const getAnswer = async (question: string) => {
   const body = { question, model_name: "gpt" };
-  const response = await fetch(`https://mln.jangkuz.io.vn/chat`, {
+  const response = await fetch(`https://hcm.jangkuz.io.vn/chat`, {
     body: JSON.stringify(body),
     method: "POST",
     headers: { "Content-Type": "application/json" },
