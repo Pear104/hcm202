@@ -10,7 +10,7 @@ export default function BSection() {
             B
           </div>
           <div className="unbounded text-[4vw] text-red-500/90 capitalize mt-[1vw]">
-            Kết hợp sức mạnh dân tộc với sức mạnh thời đại
+            Đoàn kết quốc tế <br/> và sự nghiệp chung của nhân loại
           </div>
           <div className="w-full border border-dashed translate-y-[6vw]"></div>
           <div className="grid grid-cols-3 gap-x-[6vw] mt-[4vw] gap-y-[2vw]">

@@ -83,8 +83,8 @@ export default function ASection() {
             <div className="unbounded text-[4vw] text-[#ec3343] text-end capitalize leading-[4.4vw] pr-[1.5vw] border-r-[1vw]">
               A
             </div>
-            <div className="unbounded text-[4vw] text-[#ec3343] text-end capitalize">
-              Kết hợp sức mạnh dân tộc với sức mạnh thời đại
+            <div className="unbounded text-[3vw] text-[#ec3343] text-end capitalize">
+              Kết hợp<br/> sức mạnh dân tộc <br/> với sức mạnh thời đại
             </div>
             <div className="inter italic text-end mt-[2vw]">
               Thực hiện đoàn kết quốc tế nhằm tập hợp lực lượng bên ngoài, tranh
@@ -116,7 +116,7 @@ export default function ASection() {
 
             <ToggleCard
               title="Sức mạnh thời đại"
-              defaultOpen={true /* mở sẵn như block đỏ ban đầu */}
+              defaultOpen={false /* mở sẵn như block đỏ ban đầu */}
             >
               Sức mạnh thời đại là sức mạnh của phong trào cách mạng thế giới,
               được hun đúc từ thành quả lý luận và thực tiễn của chủ nghĩa Mác –

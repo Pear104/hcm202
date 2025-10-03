@@ -52,7 +52,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex gap-[0.2vw] items-center unbounded">
-        <FaVolumeOff className="rotate-180 text-red-500" size={30} />
+        {/* <FaVolumeOff className="rotate-180 text-red-500" size={30} /> */}
         <div>Nhóm 6</div>
       </div>
       <div className="flex gap-x-[1vw] items-center">

@@ -31,16 +31,10 @@ export default function BSection() {
                 1.
               </div>
               <div className="unbounded text-[1.4vw] font-bold mb-[1vw]">
-                Đoàn kết quốc tế vì mục tiêu chung của nhân loại
+                Đối với phong trào cộng sản và công nhân quốc tế
               </div>
               <div>
-                Thực hiện đoàn kết quốc tế không chỉ vì thắng lợi của cách mạng
-                mỗi nước, mà còn vì sự nghiệp chung của nhân loại tiến bộ trong
-                cuộc đấu tranh chống chủ nghĩa đế quốc và các thế lực phản động.
-                Thời đại Hồ Chí Minh sống và hoạt động chính trị đã chấm dứt sự
-                biệt lập của các quốc gia, mở ra quan hệ quốc tế sâu rộng, khiến
-                vận mệnh của mỗi dân tộc gắn liền với vận mệnh chung của toàn
-                nhân loại.
+                “Có lý” là sự tuân thủ những nguyên tắc cơ bản của chủ nghĩa Mác – Lênin, còn “có tình” là sự cảm thông, tôn trọng lẫn nhau để xây dựng khối đoàn kết bền vững.
               </div>
             </div>
             <div className="bg-zinc-700 rounded-xl p-[2vw]">
@@ -48,17 +42,10 @@ export default function BSection() {
                 2.
               </div>
               <div className="unbounded text-[1.4vw] font-bold mb-[1vw]">
-                Kết nối cách mạng Việt Nam với mục tiêu cao cả của thời đại
+                Đối với các dân tộc trên thế giới
               </div>
               <div>
-                Hồ Chí Minh kiên trì đấu tranh, không ngừng củng cố và tăng
-                cường đoàn kết giữa các lực lượng cách mạng thế giới vì hòa
-                bình, độc lập dân tộc, dân chủ và tiến bộ xã hội. Người luôn gắn
-                cách mạng Việt Nam với mục tiêu chung cao cả của nhân loại. Nhân
-                dân Việt Nam không chỉ chiến đấu cho độc lập, tự do của dân tộc
-                mình mà còn vì độc lập, tự do của các dân tộc khác, không chỉ
-                bảo vệ lợi ích quốc gia mà còn cùng nhân loại hướng tới hòa
-                bình, dân chủ và chủ nghĩa xã hội.
+                “Có lý” thể hiện ở việc Hồ Chí Minh giương cao ngọn cờ độc lập, tự do và quyền bình đẳng giữa các dân tộc; “có tình” được cụ thể hóa bằng việc nhất quán tôn trọng độc lập, chủ quyền, thống nhất, toàn vẹn lãnh thổ và quyền tự quyết của tất cả các dân tộc – quốc gia, đồng thời mong muốn hợp tác hữu nghị trên cơ sở các nguyên tắc đó. Tháng 9/1948, trả lời phỏng vấn một nhà báo Mỹ, Hồ Chí Minh đã khẳng định rõ ràng: chính sách đối ngoại của nước Việt Nam là “làm bạn với tất cả mọi nước dân chủ và không gây thù oán với một ai.”
               </div>
             </div>
             <div className="bg-zinc-700 rounded-xl p-[2vw]">
@@ -66,14 +53,10 @@ export default function BSection() {
                 3.
               </div>
               <div className="unbounded text-[1.4vw] font-bold mb-[1vw]">
-                Giáo dục chủ nghĩa yêu nước gắn với quốc tế vô sản
+                Đối với các lực lượng tiến bộ trên thế giới
               </div>
               <div>
-                Để thực hiện thắng lợi sự nghiệp cách mạng, cần kết hợp giáo dục
-                chủ nghĩa yêu nước chân chính với chủ nghĩa quốc tế vô sản cho
-                nhân dân, đồng thời đấu tranh chống chủ nghĩa sô vanh, cơ hội,
-                vị kỷ dân tộc. Đây là cơ sở tư tưởng để xây dựng sự gắn kết giữa
-                lợi ích dân tộc với lợi ích nhân loại.
+                Hồ Chí Minh giương cao ngọn cờ hòa bình và chống chiến tranh xâm lược. Người nhiều lần nhấn mạnh rằng dân tộc Việt Nam yêu chuộng hòa bình, không muốn đổ máu, và coi “ngọn cờ hòa bình trong công lý” là tư tưởng bất di bất dịch. Chính sách ngoại giao của Việt Nam dưới sự lãnh đạo của Người là thân thiện với tất cả các nước dân chủ trên thế giới để giữ gìn hòa bình, đồng thời kiên định phân biệt rõ bạn và thù trong cả hai cuộc kháng chiến.
               </div>
             </div>
           </div>

@@ -46,7 +46,7 @@ export default function TheGioi() {
               MẶT TRẬN NHÂN DÂN THẾ GIỚI
               <br /> ĐOÀN KẾT VỚI VIỆT NAM <br /> CHỐNG ĐẾ QUỐC XÂM LƯỢC
             </h1>
-            <p className="text-zinc-300 text-[1vw] text-center mt-3 max-w-[850px] mx-auto">
+            <p className="text-zinc-300 text-[1vw] text-center mt-3 max-w-[950px] mx-auto">
               Mặt trận nhân dân thế giới đoàn kết với Việt Nam được hình thành nhằm tranh thủ sự đồng tình, ủng hộ của các nước xã hội chủ nghĩa và bạn bè quốc tế, tạo thế dựa vững chắc cho cách mạng Việt Nam.
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function TheGioi() {
 function TextCard({ children }: { children: React.ReactNode }) {
   return (
     <div className=" rounded-xl p-5">
-      <p className="text-zinc-200">{children}</p>
+      <p className="text-zinc-200 text-2xl">{children}</p>
     </div>
   );
 }

@@ -160,7 +160,7 @@ function ImageCard({
   caption?: string;
 }) {
   return (
-    <figure className="bg-zinc-800/70 rounded-xl p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+    <figure className=" rounded-xl  shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
       <div className="w-full rounded-lg overflow-hidden">
         {src ? (
           <img src={src} alt={alt || ""} className="w-full h-auto object-cover" />

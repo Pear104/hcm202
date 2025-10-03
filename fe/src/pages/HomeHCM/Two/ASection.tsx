@@ -85,20 +85,6 @@ export default function ASection() {
                 dân ta đến những thắng lợi vẻ vang.
               </NumberedToggleCard>
             </div>
-
-            <div className="unbounded text-[3.6vw] text-red-500 text-center capitalize py-[2vw]">
-              Đại đoàn kết dân tộc gắn liền với
-              <br />
-              đoàn kết quốc tế
-            </div>
-            <div className="w-[64vw] text-[1.4vw] text-center">
-              Theo Hồ Chí Minh, đại đoàn kết toàn dân tộc phải gắn liền với đoàn
-              kết quốc tế. Đại đoàn kết dân tộc chính là cơ sở, là tiền đề vững
-              chắc để triển khai thành công đoàn kết quốc tế. Chỉ khi sức mạnh
-              dân tộc kết hợp hài hòa với sức mạnh thời đại thì mới có thể tạo
-              nên sức mạnh tổng hợp, bảo đảm cho thắng lợi của cách mạng Việt
-              Nam.
-            </div>
           </div>
         </div>
         <div className="mt-[4vw] flex flex-col items-center">

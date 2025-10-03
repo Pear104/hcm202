@@ -127,7 +127,7 @@ export default function VietMienLao() {
 
 function TextCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-zinc-800/70 rounded-xl p-5 text-zinc-200 text-[0.95vw] leading-relaxed shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+    <div className="rounded-xl p-5 text-zinc-200 text-[0.9vw] leading-relaxed ">
       {children}
     </div>
   );
@@ -143,7 +143,7 @@ function ImageCard({
   caption?: string;
 }) {
   return (
-    <figure className="bg-zinc-800/70 rounded-xl p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+    <figure className=" rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
       <div className="w-full rounded-lg overflow-hidden">
         {src ? (
           // Actual image

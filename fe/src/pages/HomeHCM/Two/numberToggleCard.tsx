@@ -29,7 +29,7 @@ export const NumberedToggleCard = ({
       >
         {/* Number Circle */}
         <div
-          className={`z-20 relative -translate-x-[2.5vw] flex-shrink-0 w-[4vw] h-[4vw] rounded-full flex items-center justify-center text-[1.6vw] font-bold transition-all duration-300 ${
+          className={`z-10 relative -translate-x-[2.5vw] flex-shrink-0 w-[4vw] h-[4vw] rounded-full flex items-center justify-center text-[1.6vw] font-bold transition-all duration-300 ${
             isOpen ? "bg-white text-red-500" : "bg-[#ff2f2f] text-white"
           }`}
         >
