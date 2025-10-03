@@ -9,7 +9,7 @@ export default function APhi() {
       {/* Trigger */}
       <div className="flex flex-col items-center">
         <div className="font-bold text-[1.4vw] text-center">
-          Mặt trận nhân dân Á - Phi đoàn kết với Việt Nam
+          Mặt trận nhân dân Á - Phi <br /> đoàn kết với Việt Nam
         </div>
         <div className="my-[2vw] text-center">
           Khẳng định mối liên hệ vận mệnh giữa Việt Nam với châu Á – Phi, mở rộng

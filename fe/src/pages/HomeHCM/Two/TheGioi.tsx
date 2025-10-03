@@ -6,60 +6,93 @@ export default function TheGioi() {
 
   return (
     <>
+      {/* Trigger */}
       <div className="flex flex-col items-center">
         <div className="font-bold text-[1.4vw] text-center">
-          Mặt trận nhân dân thế giới đoàn kết với Việt Nam chống đế quốc xâm
-          lược
+          Mặt trận nhân dân thế giới đoàn kết với Việt Nam chống đế quốc xâm lược
         </div>
-        <div className="my-[2vw] text-center text-[1.2vw]">
-          Phong trào phản chiến và ủng hộ quốc tế lan rộng, tạo chỗ dựa vững
-          chắc cho kháng chiến Việt Nam.
+        <div className="my-[2vw] text-center text-[1.1vw]">
+          Phong trào phản chiến và ủng hộ quốc tế lan rộng, tạo chỗ dựa vững chắc
+          cho kháng chiến Việt Nam.
         </div>
-        <div
+        <button
           className="text-red-500 cursor-pointer hover:scale-[1.1] duration-300 transition-all"
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => setIsOpen(v => !v)}
         >
           Xem thêm
-        </div>
+        </button>
       </div>
+
+      {/* Modal */}
       {isOpen && (
         <div
           data-lenis-prevent-wheel
-          // data-lenis-prevent-touch
-          className="fixed gap-x-[6vw] gap-y-[2vw] w-screen h-screen bg-zinc-900 top-0 left-0 z-50 overflow-y-scroll"
+          className="fixed inset-0 z-50 w-screen h-screen overflow-y-auto bg-zinc-900"
         >
-          <div
-            onClick={() => setIsOpen((prev) => !prev)}
+          {/* Close */}
+          <button
+            onClick={() => setIsOpen(false)}
             className="fixed top-4 left-4 hover:scale-[1.1] transition-all duration-300 cursor-pointer"
           >
             <BiX className="text-white text-4xl" />
+          </button>
+
+          {/* Header */}
+          <div className="max-w-[1100px] mx-auto px-6 pt-[3.5vw] pb-6">
+            <div className="text-red-500 unbounded uppercase text-center text-[1.2vw] tracking-wider">
+              IB
+            </div>
+            <h1 className="unbounded text-center text-red-500 text-[2.3vw] font-extrabold mt-2 leading-snug">
+              MẶT TRẬN NHÂN DÂN THẾ GIỚI
+              <br /> ĐOÀN KẾT VỚI VIỆT NAM <br /> CHỐNG ĐẾ QUỐC XÂM LƯỢC
+            </h1>
+            <p className="text-zinc-300 text-[1vw] text-center mt-3 max-w-[850px] mx-auto">
+              Mặt trận nhân dân thế giới đoàn kết với Việt Nam được hình thành nhằm tranh thủ sự đồng tình, ủng hộ của các nước xã hội chủ nghĩa và bạn bè quốc tế, tạo thế dựa vững chắc cho cách mạng Việt Nam.
+            </p>
           </div>
-          <div className="text-red-500 unbounded text-[2vw] uppercase text-center mt-[2vw]">
-            B
-          </div>
-          <div className="text-red-500 unbounded text-[2vw] uppercase text-center my-[1vw]">
-            Mặt trận đại đoàn kết dân tộc
-          </div>
-          <div className="mb-[4vw] w-[70vw] mx-auto">
-            Mặt trận đại đoàn kết dân tộc nhằm khơi dậy sức mạnh và quyền tự
-            quyết của mỗi dân tộc trong sự nghiệp đấu tranh cách mạng. Ngay từ
-            năm 1924, Hồ Chí Minh đã đưa ra quan điểm về việc thành lập “Mặt
-            trận thống nhất của nhân dân chính quốc và thuộc địa” để chống chủ
-            nghĩa đế quốc, đồng thời kiến nghị Quốc tế Cộng sản cần có những
-            giải pháp cụ thể nhằm biến quan điểm này thành hiện thực. Từ ngày
-            18/11/1930 đến nay, tổ chức Mặt trận Dân tộc thống nhất ở Việt Nam
-            đã nhiều lần thay đổi tên gọi để phù hợp với từng giai đoạn cách
-            mạng:
-          </div>
-          <div className="grid grid-cols-3 gap-x-[2vw] gap-y-[2vw] w-[70vw] mx-auto mb-[2vw]">
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
+
+          {/* Content */}
+          <div className="max-w-[1100px] mx-auto px-6 pb-[5vw] space-y-12 text-zinc-200 text-[0.95vw] leading-relaxed">
+            {/* Block 1: Ảnh trái - text phải */}
+            <div className="grid grid-cols-12 gap-6 items-start">
+              <div className="col-span-12 md:col-span-7">
+                <ImageCard src="/images/2-4-1.png" alt="Biểu tình ở Moskva 1965" />
+              </div>
+              <div className="col-span-12 md:col-span-5">
+                <TextCard>
+                  Ngày 08/02/1965, nhân dân thủ đô Moskva (Liên Xô) đã tổ chức một
+                  cuộc mít-tinh lớn để bày tỏ sự ủng hộ mạnh mẽ đối với cuộc kháng
+                  chiến chính nghĩa của nhân dân Việt Nam.
+                </TextCard>
+              </div>
+            </div>
+
+            {/* Block 2: text trái - ảnh phải */}
+            <div className="grid grid-cols-12 gap-6 items-start">
+              <div className="col-span-12 md:col-span-5">
+                <TextCard>
+                  Tại Pháp, phong trào phản chiến trong binh lính ngày càng lan rộng,
+                  lên án cuộc chiến tranh phi nghĩa ở Việt Nam.
+                </TextCard>
+              </div>
+              <div className="col-span-12 md:col-span-7">
+                <ImageCard src="/images/2-4-2.png" alt="Phong trào phản chiến tại Pháp" />
+              </div>
+            </div>
+
+            {/* Block 3: ảnh trái - text phải */}
+            <div className="grid grid-cols-12 gap-6 items-start">
+              <div className="col-span-12 md:col-span-7">
+                <ImageCard src="/images/2-4-3.png" alt="Phong trào phản chiến tại Mỹ" />
+              </div>
+              <div className="col-span-12 md:col-span-5">
+                <TextCard>
+                  Tại Mỹ, phong trào phản chiến phát triển mạnh mẽ với nhiều hình
+                  thức đa dạng, trong đó có các hoạt động tiêu biểu như “Ngày ngừng
+                  hoạt động” năm 1968 và “Tạm ngưng hòa bình” năm 1969.
+                </TextCard>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -67,17 +100,27 @@ export default function TheGioi() {
   );
 }
 
-const Item = () => {
+/* --- UI helpers --- */
+function TextCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="font-bold text-[1.4vw] text-center">
-        Mặt trận đại đoàn kết dân tộc
-      </div>
-      <div className="my-[2vw] text-center">
-        Hồ Chí Minh chủ trương xây dựng mặt trận thống nhất để khơi dậy sức mạnh
-        toàn dân trong đấu tranh chống đế quốc.
-      </div>
-      <div className="text-red-500">Xem thêm </div>
+    <div className=" rounded-xl p-5">
+      <p className="text-zinc-200">{children}</p>
     </div>
   );
-};
+}
+
+function ImageCard({ src, alt }: { src: string; alt?: string }) {
+  return (
+    <div className="rounded-xl">
+      <div className="w-full rounded-lg overflow-hidden">
+        {src ? (
+          <img src={src} alt={alt || ""} className="w-full h-auto object-cover" />
+        ) : (
+          <div className="w-full aspect-[16/9]  grid place-items-center text-zinc-300">
+            Thêm ảnh ở đây
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
