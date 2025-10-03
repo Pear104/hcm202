@@ -5,6 +5,7 @@ import VietMienLao from "./VietMienLao";
 import APhi from "./APhi";
 import TheGioi from "./TheGioi";
 import { ToggleCard } from "../One/ASection";
+import { NumberedToggleCard } from "./numberToggleCard";
 
 export default function ASection() {
   return (
@@ -36,7 +37,9 @@ export default function ASection() {
           <div className="col-span-2 flex flex-col items-center">
             <div className="space-y-[1vw] mt-[2vw]">
               {/* Toggle giữ nguyên CSS gốc từng khối */}
-              <ToggleCard
+              <NumberedToggleCard
+                number={1}
+
                 title="Phong trào cộng sản và công nhân thế giới"
                 defaultOpen={true}
               >
@@ -48,9 +51,10 @@ export default function ASection() {
                 giai cấp lao động toàn thế giới, theo tinh thần “bốn phương vô
                 sản đều là anh em”, mới có thể chống lại được những âm mưu thâm
                 độc của chủ nghĩa đế quốc thực dân.
-              </ToggleCard>
+              </NumberedToggleCard>
 
-              <ToggleCard
+              <NumberedToggleCard
+                number={2}
                 title="Phong trào đấu tranh giải phóng dân tộc"
                 defaultOpen={false /* mở sẵn như block đỏ ban đầu */}
               >
@@ -65,8 +69,9 @@ export default function ASection() {
                 đường cho một sự hợp tác thật sự sau này”. Theo Hồ Chí Minh, chỉ
                 có sự hợp tác này mới bảo đảm cho giai cấp công nhân quốc tế
                 giành thắng lợi cuối cùng.
-              </ToggleCard>
-              <ToggleCard
+              </NumberedToggleCard>
+              <NumberedToggleCard
+                number={3}
                 title="Các lực lượng tiến bộ, yêu chuộng hòa bình, dân chủ, tự do và công lý"
                 defaultOpen={false /* mở sẵn như block đỏ ban đầu */}
               >
@@ -78,7 +83,7 @@ export default function ASection() {
                 công nhân quốc tế và của các dân tộc bị áp bức, Đảng ta đã vượt
                 qua được mọi khó khăn, thử thách, đưa giai cấp công nhân và nhân
                 dân ta đến những thắng lợi vẻ vang.
-              </ToggleCard>
+              </NumberedToggleCard>
             </div>
 
             <div className="unbounded text-[3.6vw] text-red-500 text-center capitalize py-[2vw]">
@@ -127,17 +132,17 @@ export default function ASection() {
   );
 }
 
-const Item = () => {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="font-bold text-[1.4vw] text-center">
-        Mặt trận đại đoàn kết dân tộc
-      </div>
-      <div className="my-[2vw] text-center">
-        Hồ Chí Minh chủ trương xây dựng mặt trận thống nhất để khơi dậy sức mạnh
-        toàn dân trong đấu tranh chống đế quốc.
-      </div>
-      <div className="text-red-500">Xem thêm </div>
-    </div>
-  );
-};
+// const Item = () => {
+//   return (
+//     <div className="flex flex-col items-center">
+//       <div className="font-bold text-[1.4vw] text-center">
+//         Mặt trận đại đoàn kết dân tộc
+//       </div>
+//       <div className="my-[2vw] text-center">
+//         Hồ Chí Minh chủ trương xây dựng mặt trận thống nhất để khơi dậy sức mạnh
+//         toàn dân trong đấu tranh chống đế quốc.
+//       </div>
+//       <div className="text-red-500">Xem thêm </div>
+//     </div>
+//   );
+// };

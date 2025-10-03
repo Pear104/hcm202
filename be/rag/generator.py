@@ -6,6 +6,7 @@ import requests
 
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+deepseek_url = os.getenv("DEEPSEEK_URL")
 
 
 def clean_thoughts(text: str) -> str:
@@ -50,5 +51,38 @@ def generate_with_groq(prompt: str, model_name: str) -> str:
 
     except Exception as e:
         return f"[Error Calling Groq]: {e}"
+
+def generate_with_lmstudio(prompt: str, model_name: str) -> str:
+    model_lookup = {
+        "deepseek": "deepseek-r1-distill-llama-3b"
+    }
+    
+    model_id = model_lookup.get(model_name.lower())
+    try:
+        # LM Studio uses the model name as shown in its UI (check /v1/models)
+        # Example: "deepseek-r1-distill-llama-3b"
+        url_string = f"{deepseek_url}/v1/chat/completions"
+        print(url_string)
+        res = requests.post(
+            url=url_string,  # LM Studio local server
+            headers={
+                "Authorization": "Bearer lm-studio",  # LM Studio ignores this but some clients require it
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": model_id,
+                "messages": [
+                    {"role": "system", "content": "You are a helpful academic advisor."},
+                    {"role": "user", "content": prompt.strip()}
+                ],
+                "temperature": 0.7
+            },
+            timeout=60
+        )
+        res.raise_for_status()
+        return res.json()["choices"][0]["message"]["content"].strip()
+
+    except Exception as e:
+        return f"[Error Calling LM Studio]: {e}"
 
 

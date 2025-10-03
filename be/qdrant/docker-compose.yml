@@ -16,13 +16,13 @@ services:
         target: /qdrant/config/production.yaml
     environment:
       - QDRANT__GPU__INDEXING=1
-        #    deploy:
-        #      resources:
-        #        reservations:
-        #          devices:
-        #            - driver: nvidia
-        #              count: all
-        #              capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     volumes:
       - qdrant_data:/qdrant/storage
 
@@ -33,7 +33,7 @@ services:
     ports:
       - 7979:8000
     environment:
-      - QDRANT__URL=qdrant:6333
+      - QDRANT__URL=http://qdrant:6333
     depends_on:
       - qdrant
 
