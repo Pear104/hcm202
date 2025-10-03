@@ -43,9 +43,10 @@ export default function Document() {
       time: "2024",
       author: "--",
       link: "https://tuyenquang.dcs.vn/DetailView/148090/40/Tuyen-Quang---Noi-ghi-dau-tinh-doan-ket-Viet-Nam---Lao---Campuchia.html",
-      image: "/images/web2.png",},
-    
-      {
+      image: "/images/web2.png",
+    },
+
+    {
       type: "Website",
       title: "hochiminh.nhandan.vn",
       time: "2023",
@@ -91,7 +92,7 @@ export default function Document() {
     <>
       <div
         id="scroll-section"
-        className="w-screen h-[140vw] relative group py-[4vw]"
+        className="w-screen h-[140vw] relative group pt-[4vw]"
       >
         <div
           id="scroll-title"
@@ -102,7 +103,7 @@ export default function Document() {
           </div>
           <div
             id="scroll-wrapper"
-            className="flex gap-[3vw] w-[210vw] mx-[4vw] overflow-x-scroll mt-[2vw]"
+            className="flex gap-[3vw] w-[240vw] mx-[4vw] overflow-x-scroll mt-[2vw]"
           >
             {items.map((item, i) => (
               <SlideItem key={i} item={item} />
@@ -116,7 +117,7 @@ export default function Document() {
 
 const SlideItem = ({ item }: { item: any }) => {
   return (
-    <div className="horizontal-scroll flex flex-col justify-center w-[30vw] gap-[0.5vw] inter">
+    <div className="horizontal-scroll flex flex-col justify-center w-[18vw] gap-[0.5vw] inter">
       <img
         className="transition-all duration-400 opacity-100 rounded-xl shadow-lg aspect-[9/11] object-cover object-center w-full"
         src={item.image}

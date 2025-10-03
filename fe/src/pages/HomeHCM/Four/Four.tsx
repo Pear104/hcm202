@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "./Banner";
 import ASection from "./ASection";
 import BSection from "./BSection";
+import Footer from "@/components/Footer";
 
 export default function Four() {
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div>
         <Banner />
         <ASection />
+        <Footer />
       </div>
     </>
   );

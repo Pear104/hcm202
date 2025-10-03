@@ -10,7 +10,6 @@ export default function MainLayout() {
       <div className="mt-[3vw] min-h-0">
         <Outlet />
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

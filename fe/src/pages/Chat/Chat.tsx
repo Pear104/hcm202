@@ -18,14 +18,23 @@ type SuggestionItemProps = {
 
 // ==== Gợi ý phù hợp Tư tưởng HCM ====
 const suggestions: SuggestionItemProps[] = [
-  { title: "Tư tưởng Hồ Chí Minh về độc lập dân tộc gắn với CNXH là gì?", icon: "🇻🇳" },
-  { title: "Đạo đức cách mạng theo Hồ Chí Minh gồm những điểm chính nào?", icon: "🌿" },
+  {
+    title: "Tư tưởng Hồ Chí Minh về độc lập dân tộc gắn với CNXH là gì?",
+    icon: "🇻🇳",
+  },
+  {
+    title: "Đạo đức cách mạng theo Hồ Chí Minh gồm những điểm chính nào?",
+    icon: "🌿",
+  },
   { title: "Đại đoàn kết dân tộc trong Tư tưởng Hồ Chí Minh", icon: "🤝" },
   { title: "Nhà nước của dân, do dân, vì dân được hiểu thế nào?", icon: "🏛️" },
 ];
 
 const STORAGE_KEY = "hcm_chat_messages_v1";
-const LEGACY_KEYS = ["hcm_chat_popup_messages_v1", "hcm_chat_fullpage_messages_v1"];
+const LEGACY_KEYS = [
+  "hcm_chat_popup_messages_v1",
+  "hcm_chat_fullpage_messages_v1",
+];
 const MAX_HISTORY = 20;
 
 export default function ChatPopup() {
@@ -51,8 +60,13 @@ export default function ChatPopup() {
       const rawNew = localStorage.getItem(STORAGE_KEY);
       const parseArr = (raw: string | null) => {
         if (!raw) return [] as MessageItemProps[];
-        const arr = JSON.parse(raw) as Array<Omit<MessageItemProps, "timestamp"> & { timestamp?: string }>;
-        return arr.map((m) => ({ ...m, timestamp: m.timestamp ? new Date(m.timestamp) : undefined })) as MessageItemProps[];
+        const arr = JSON.parse(raw) as Array<
+          Omit<MessageItemProps, "timestamp"> & { timestamp?: string }
+        >;
+        return arr.map((m) => ({
+          ...m,
+          timestamp: m.timestamp ? new Date(m.timestamp) : undefined,
+        })) as MessageItemProps[];
       };
 
       let merged = parseArr(rawNew);
@@ -128,7 +142,8 @@ export default function ChatPopup() {
     const el = messagesContainerRef.current;
     if (!el) return;
     const threshold = 120; // px từ đáy
-    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+    const atBottom =
+      el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
     if (atBottom && messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -176,8 +191,11 @@ export default function ChatPopup() {
     <>
       {/* Floating Button */}
       <div
-        className={`fixed bottom-6 right-6 w-16 h-16 group hover:scale-110 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex justify-center items-center cursor-pointer z-50 duration-300 transition-all shadow-lg hover:shadow-xl ${!isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20 pointer-events-none"
-          }`}
+        className={`fixed bottom-6 right-6 w-16 h-16 group hover:scale-110 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex justify-center items-center cursor-pointer z-60 duration-300 transition-all shadow-lg hover:shadow-xl ${
+          !isOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-20 pointer-events-none"
+        }`}
         onClick={() => setIsOpen(true)}
       >
         <BiSolidBot className="text-black text-3xl group-hover:text-4xl duration-300 transition-all group-hover:rotate-12" />
@@ -186,8 +204,11 @@ export default function ChatPopup() {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-6 right-6 w-[400px] h-[600px] bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl flex flex-col shadow-2xl border border-zinc-800 duration-300 transition-all overflow-hidden ${isOpen ? "opacity-100 translate-x-0 scale-100" : "opacity-0 translate-x-full scale-95 pointer-events-none"
-          } min-h-0`}
+        className={`fixed bottom-6 right-6 w-[400px] h-[600px] bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl flex flex-col shadow-2xl border border-zinc-800 duration-300 transition-all overflow-hidden ${
+          isOpen
+            ? "opacity-100 translate-x-0 scale-100"
+            : "opacity-0 translate-x-full scale-95 pointer-events-none"
+        } min-h-0`}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-4 flex justify-between items-center flex-shrink-0">
@@ -196,7 +217,9 @@ export default function ChatPopup() {
               <BiSolidBot className="text-yellow-600 text-2xl" />
             </div>
             <div>
-              <div className="font-bold text-white text-sm">Gia sư Tư tưởng Hồ Chí Minh</div>
+              <div className="font-bold text-white text-sm">
+                Gia sư Tư tưởng Hồ Chí Minh
+              </div>
               <div className="text-xs text-yellow-100 flex items-center gap-1">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                 Đang hoạt động
@@ -206,12 +229,21 @@ export default function ChatPopup() {
           <div className="flex items-center gap-2">
             <button
               className="p-2 hover:bg-white/20 rounded-lg transition-all"
-              onClick={() => window.open(`${window.location.origin}/chat`, "_blank", "noopener,noreferrer")}
+              onClick={() =>
+                window.open(
+                  `${window.location.origin}/chat`,
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
               title="Mở trang chat đầy đủ"
             >
               <BsArrowsFullscreen className="text-white text-lg" />
             </button>
-            <button className="p-2 hover:bg-white/20 rounded-lg transition-all" onClick={() => setIsOpen(false)}>
+            <button
+              className="p-2 hover:bg-white/20 rounded-lg transition-all"
+              onClick={() => setIsOpen(false)}
+            >
               <IoClose className="text-white text-2xl" />
             </button>
           </div>
@@ -221,12 +253,15 @@ export default function ChatPopup() {
         <div
           ref={messagesContainerRef}
           className="chat-scroll flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-zinc-950 no-scrollbar"
-          style={{ scrollBehavior: "smooth", overscrollBehavior: "contain" as const }}
+          style={{
+            scrollBehavior: "smooth",
+            overscrollBehavior: "contain" as const,
+          }}
           data-lenis-prevent-wheel
           data-lenis-prevent-touch
           onWheel={(e) => {
-            e.preventDefault();     // chặn Lenis
-            e.stopPropagation();    // không nổi bọt ra window
+            e.preventDefault(); // chặn Lenis
+            e.stopPropagation(); // không nổi bọt ra window
             const el = messagesContainerRef.current;
             if (!el) return;
             el.scrollTop += e.deltaY; // tự cuộn container
@@ -283,7 +318,9 @@ export default function ChatPopup() {
               <IoSend className="text-xl" />
             </button>
           </div>
-          <div className="text-xs text-zinc-500 mt-2 text-center">Nhấn Enter để gửi • Shift + Enter để xuống dòng</div>
+          <div className="text-xs text-zinc-500 mt-2 text-center">
+            Nhấn Enter để gửi • Shift + Enter để xuống dòng
+          </div>
         </div>
       </div>
 
@@ -313,21 +350,38 @@ const MessageItem = ({ data }: { data: MessageItemProps }) => {
   const parsedContent = marked(normalized);
 
   return (
-    <div className={`flex gap-3 ${data.sender === "me" ? "justify-end" : "justify-start"}`}>
+    <div
+      className={`flex gap-3 ${
+        data.sender === "me" ? "justify-end" : "justify-start"
+      }`}
+    >
       {data.sender === "model" && (
         <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
           <BiSolidBot className="text-white text-lg" />
         </div>
       )}
       <div
-        className={`max-w-[75%] px-4 py-3 rounded-2xl ${data.sender === "me" ? "bg-yellow-600 text-white rounded-tr-sm" : "bg-zinc-800 text-zinc-200 rounded-tl-sm"
-          }`}
-        style={{ wordWrap: "break-word", overflowWrap: "break-word", wordBreak: "break-word" }}
+        className={`max-w-[75%] px-4 py-3 rounded-2xl ${
+          data.sender === "me"
+            ? "bg-yellow-600 text-white rounded-tr-sm"
+            : "bg-zinc-800 text-zinc-200 rounded-tl-sm"
+        }`}
+        style={{
+          wordWrap: "break-word",
+          overflowWrap: "break-word",
+          wordBreak: "break-word",
+        }}
       >
-        <div className="text-sm message-content" dangerouslySetInnerHTML={{ __html: parsedContent }} />
+        <div
+          className="text-sm message-content"
+          dangerouslySetInnerHTML={{ __html: parsedContent }}
+        />
         {data.timestamp && (
           <div className="text-xs opacity-50 mt-1">
-            {new Date(data.timestamp).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}
+            {new Date(data.timestamp).toLocaleTimeString("vi-VN", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </div>
         )}
       </div>
@@ -348,9 +402,18 @@ const TypingIndicator = () => (
     </div>
     <div className="bg-zinc-800 px-6 py-4 rounded-2xl rounded-tl-sm">
       <div className="flex gap-1.5">
-        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+        <div
+          className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce"
+          style={{ animationDelay: "0ms" }}
+        />
+        <div
+          className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce"
+          style={{ animationDelay: "150ms" }}
+        />
+        <div
+          className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce"
+          style={{ animationDelay: "300ms" }}
+        />
       </div>
     </div>
   </div>
