@@ -11,7 +11,7 @@ export default function TheGioi() {
           Mặt trận nhân dân thế giới đoàn kết với Việt Nam chống đế quốc xâm
           lược
         </div>
-        <div className="my-[2vw] text-center">
+        <div className="my-[2vw] text-center text-[1.2vw]">
           Phong trào phản chiến và ủng hộ quốc tế lan rộng, tạo chỗ dựa vững
           chắc cho kháng chiến Việt Nam.
         </div>

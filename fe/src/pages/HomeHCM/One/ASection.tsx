@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-function ToggleCard({
+export function ToggleCard({
   title,
   children,
   defaultOpen = false,
@@ -25,8 +25,8 @@ function ToggleCard({
       <button
         type="button"
         aria-expanded={open}
-        onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between text-left select-none focus:outline-none"
+        onClick={() => setOpen((v) => !v)}
+        className="cursor-pointer w-full flex items-center justify-between text-left select-none focus:outline-none"
       >
         <div className="text-[1.5vw] unbounded uppercase text-white font-bold">
           {title}
@@ -114,20 +114,23 @@ export default function ASection() {
               nước và giữ nước.
             </ToggleCard>
 
-            <ToggleCard title="Sức mạnh thời đại" defaultOpen={true /* mở sẵn như block đỏ ban đầu */}>
+            <ToggleCard
+              title="Sức mạnh thời đại"
+              defaultOpen={true /* mở sẵn như block đỏ ban đầu */}
+            >
               Sức mạnh thời đại là sức mạnh của phong trào cách mạng thế giới,
               được hun đúc từ thành quả lý luận và thực tiễn của chủ nghĩa Mác –
-              Lênin, đặc biệt được khẳng định qua thắng lợi vĩ đại của Cách
-              mạng Tháng Mười Nga năm 1917. Đây còn là sức mạnh đến từ phong
-              trào giải phóng dân tộc, phong trào cách mạng của giai cấp công
-              nhân quốc tế, sự tiến bộ vượt bậc của khoa học – kỹ thuật và sự
-              đồng tình, ủng hộ to lớn của nhân dân tiến bộ trên thế giới. Hồ
-              Chí Minh đã sớm xác định cách mạng Việt Nam là một bộ phận khăng
-              khít của cách mạng thế giới và chỉ có thể đi đến thành công khi
-              gắn bó, đoàn kết chặt chẽ với phong trào cách mạng quốc tế. Đây
-              là nhận thức mới mẻ, tiến bộ so với các bậc tiền bối, thể hiện rõ
-              vai trò quyết định của đoàn kết quốc tế đối với thắng lợi của
-              cách mạng Việt Nam.
+              Lênin, đặc biệt được khẳng định qua thắng lợi vĩ đại của Cách mạng
+              Tháng Mười Nga năm 1917. Đây còn là sức mạnh đến từ phong trào
+              giải phóng dân tộc, phong trào cách mạng của giai cấp công nhân
+              quốc tế, sự tiến bộ vượt bậc của khoa học – kỹ thuật và sự đồng
+              tình, ủng hộ to lớn của nhân dân tiến bộ trên thế giới. Hồ Chí
+              Minh đã sớm xác định cách mạng Việt Nam là một bộ phận khăng khít
+              của cách mạng thế giới và chỉ có thể đi đến thành công khi gắn bó,
+              đoàn kết chặt chẽ với phong trào cách mạng quốc tế. Đây là nhận
+              thức mới mẻ, tiến bộ so với các bậc tiền bối, thể hiện rõ vai trò
+              quyết định của đoàn kết quốc tế đối với thắng lợi của cách mạng
+              Việt Nam.
             </ToggleCard>
           </div>
 

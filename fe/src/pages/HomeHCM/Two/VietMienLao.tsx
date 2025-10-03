@@ -12,7 +12,7 @@ export default function VietMienLao() {
           <br />
           Việt – Miên – Lào
         </div>
-        <div className="my-[2vw] text-center">
+        <div className="my-[2vw] text-center text-[1.2vw]">
           Khối liên minh nhân dân ba nước hình thành, đoàn kết chiến đấu chống
           Pháp thắng lợi.
         </div>

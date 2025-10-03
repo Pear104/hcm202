@@ -10,7 +10,7 @@ export default function APhi() {
         <div className="font-bold text-[1.4vw] text-center">
           Mặt trận nhân dân Á - Phi đoàn kết với Việt Nam
         </div>
-        <div className="my-[2vw] text-center">
+        <div className="my-[2vw] text-center text-[1.2vw]">
           Khẳng định mối liên hệ vận mệnh giữa Việt Nam với châu Á – Phi, mở
           rộng mặt trận đoàn kết chống đế quốc.
         </div>
