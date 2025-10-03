@@ -40,7 +40,7 @@ class UserProfile(BaseModel):
 
 from pydantic import validator
 
-ALLOWED_MODELS = ["gemini", "gpt", "gemma"]
+ALLOWED_MODELS = ["gemini", "gpt", "gemma", "deepseek"]
 
 class ChatRequest(BaseModel):
     question: str
