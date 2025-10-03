@@ -14,10 +14,10 @@ export const NumberedToggleCard = ({ number, title, children, defaultOpen = fals
       
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center gap-[1.5vw] px-[2vw] py-[1vw] rounded-2xl transition-all duration-300 ease-in-out ${
+        className={`w-full flex items-center gap-[1.5vw] px-[2vw]  rounded-2xl transition-all duration-300 ease-in-out ${
           isOpen 
             ? 'bg-[#602222] text-white shadow-lg' 
-            : 'bg-[#151515] text-white hover:bg-gray-700'
+            : 'bg-[#151515] text-white hover:bg-[#363636]'
         }`}
       >
         {/* Number Circle */}
