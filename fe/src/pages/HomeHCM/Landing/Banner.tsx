@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
@@ -7,15 +7,26 @@ const slides = [
     path: "/1",
     image: "/images/landing_canthiet.png",
     title: " Lực lượng đoàn kết quốc tế và hình thức tổ chức",
-    subtitle: "“Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống người bóc lột và giống người bị bóc lột. Mà cũng chỉ có một mối tình hữu ái là thật mà thôi: tình hữu ái vô sản”.",
+    subtitle: (
+      <div className="text-center">
+        “Dù màu da có khác nhau, trên đời này chỉ có hai giống người: Giống
+        người bóc lột và giống người bị bóc lột.
+        <br />
+        Mà cũng chỉ có một mối tình hữu ái là thật mà thôi: tình hữu ái vô sản”
+      </div>
+    ),
   },
   {
     id: 2,
     path: "/2",
 
     image: "/images/landing_lucluong.png",
-    title: " Lực lượng đoàn kết quốc tế và hình thức tổ chức",
-    subtitle: "“Đoàn kết, đoàn kết, đại đoàn kết.Thành công, thành công, đại thành công”",
+    title: "Đoàn kết quốc tế trong thời kỳ hội nhập",
+    subtitle: (
+      <div>
+        Đoàn kết, đoàn kết, đại đoàn kết.Thành công, thành công, đại thành công
+      </div>
+    ),
   },
   {
     id: 3,
@@ -23,14 +34,19 @@ const slides = [
 
     image: "/images/landing_nguyentac.png",
     title: "Nguyên tắc đoàn kết quốc tế",
-    subtitle: "Nguyên tắc cơ bản trong quan hệ quốc tế hiện đại",
+    subtitle: <div>Nguyên tắc cơ bản trong quan hệ quốc tế hiện đại</div>,
   },
   {
     id: 4,
     path: "/4",
     image: "/images/landing_hoinhap.png",
     title: "Đoàn kết quốc tế trong thời kỳ hội nhập",
-    subtitle: "Đoàn kết quốc tế theo tư tưởng Hồ Chí Minh – Kim chỉ nam cho sinh viên Việt Nam trong thời kỳ hội nhập",
+    subtitle: (
+      <div>
+        Đoàn kết quốc tế theo tư tưởng Hồ Chí Minh – Kim chỉ nam cho sinh viên
+        Việt Nam trong thời kỳ hội nhập
+      </div>
+    ),
   },
 ];
 
@@ -65,27 +81,24 @@ export default function Banner() {
               <div
                 key={slide.id}
                 onClick={() => goToSlide(index)}
-                className={`absolute transition-all duration-700 ease-out cursor-pointer ${isActive ? 'z-20' : 'z-10'
-                  }`}
+                className={`absolute transition-all duration-700 ease-out cursor-pointer ${
+                  isActive ? "z-20" : "z-10"
+                }`}
                 style={{
                   transform: `
                     translateX(${offset * 35}vw) 
-                    translateZ(${isActive ? '0px' : '-300px'}) 
+                    translateZ(${isActive ? "0px" : "-300px"}) 
                     rotateY(${offset * -25}deg)
                     scale(${isActive ? 1 : 0.8})
                   `,
                   opacity: isActive ? 1 : 0.6,
-                  filter: isActive ? 'brightness(1)' : 'brightness(0.5)',
-                  transformStyle: 'preserve-3d'
+                  filter: isActive ? "brightness(1)" : "brightness(0.5)",
+                  transformStyle: "preserve-3d",
                 }}
               >
                 <div className="relative w-[80vw] h-[40vw] rounded-2xl overflow-hidden shadow-2xl">
-                  <div
-                    className="w-full h-full object-cover z-0"
-                  >
-                    <div className='absolute top-0 left-0 w-full h-full bg-black/30'>
-
-                    </div>
+                  <div className="w-full h-full object-cover z-0">
+                    <div className="absolute top-0 left-0 w-full h-full bg-black/30"></div>
                     <img
                       src={slide.image}
                       alt={slide.title}
@@ -99,7 +112,7 @@ export default function Banner() {
                       <h2 className="text-[3.5vw] font-bold unbounded leading-tight mb-[1vw]">
                         {slide.title}
                       </h2>
-                      <p className="text-[1.2vw] opacity-90 max-w-[40vw] italic">
+                      <p className="text-[1.2vw] opacity-90 max-w-[80vw] italic">
                         {slide.subtitle}
                       </p>
                       <button
@@ -137,10 +150,11 @@ export default function Banner() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-[0.8vw] h-[0.8vw] rounded-full transition-all ${index === currentIndex
-                ? 'bg-red-500 w-[2.5vw]'
-                : 'bg-white/40 hover:bg-white/60'
-                }`}
+              className={`w-[0.8vw] h-[0.8vw] rounded-full transition-all ${
+                index === currentIndex
+                  ? "bg-red-500 w-[2.5vw]"
+                  : "bg-white/40 hover:bg-white/60"
+              }`}
             />
           ))}
         </div>
