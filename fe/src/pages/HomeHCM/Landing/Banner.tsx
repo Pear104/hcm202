@@ -107,7 +107,7 @@ export default function Banner() {
                     <div className="absolute top-0 left-0 w-full h-full bg-black/30"></div>
                     <img
                       src={slide.image}
-                      alt={slide.title}
+                      // alt={slide.title}
                       className="w-full h-full object-cover -z-10"
                     />
                   </div>
