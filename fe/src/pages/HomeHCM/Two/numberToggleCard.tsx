@@ -21,15 +21,15 @@ export const NumberedToggleCard = ({
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center gap-[1.5vw] px-[2vw]  rounded-2xl transition-all duration-300 ease-in-out ${
-          isOpen 
-            ? 'bg-[#602222] text-white shadow-lg' 
-            : 'bg-[#151515] text-white hover:bg-[#363636]'
+        className={`z-20 w-full flex items-center gap-[1.5vw] px-[2vw] rounded-l-4xl rounded-r-2xl transition-all duration-300 ease-in-out ${
+          isOpen
+            ? "bg-red-500 text-white shadow-lg"
+            : "bg-[#151515] text-white hover:bg-gray-700"
         }`}
       >
         {/* Number Circle */}
         <div
-          className={`relative flex-shrink-0 w-[4vw] h-[4vw] rounded-full flex items-center justify-center text-[1.6vw] font-bold transition-all duration-300 ${
+          className={`z-20 relative -translate-x-[2.5vw] flex-shrink-0 w-[4vw] h-[4vw] rounded-full flex items-center justify-center text-[1.6vw] font-bold transition-all duration-300 ${
             isOpen ? "bg-white text-red-500" : "bg-[#ff2f2f] text-white"
           }`}
         >
